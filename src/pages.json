@@ -1,0 +1,274 @@
+{
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/index/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		{
+			"path": "pages/index/upgrade/upgrade",
+			"style": {
+				"navigationBarTitleText": "升级礼包"
+			}
+		},
+		{
+			"path": "pages/index/detail/detail"
+		},
+		{
+			"path": "pages/index/exchange/exchange",
+			"style": {
+				"navigationBarTitleText": "金豆兑换"
+			}
+		},
+		{
+			"path": "pages/index/shoppingMall/shoppingMall",
+			"style": {
+				"navigationBarTitleText": "会员商城"
+			}
+		},
+		{
+			"path": "pages/index/signIn/signIn",
+			"style": {
+				"navigationBarTitleText": "会员签到"
+			}
+		},
+		{
+			"path": "pages/index/quality/quality",
+			"style": {
+				"navigationBarTitleText": "品质甄选"
+			}
+		},
+		{
+			"path": "pages/login/login"
+		},
+		{
+			"path": "pages/index/newlyElected/newlyElected",
+			"style": {
+				"navigationBarTitleText": "新选大赏"
+			}
+		},
+		{
+			"path": "pages/all/all",
+			"style": {
+				"navigationBarTitleText": "所有"
+			}
+		},
+		{
+			"path": "pages/all/own/own",
+			"style": {
+				"navigationBarTitleText": "所有商品"
+			}
+		},
+		{
+			"path": "pages/all/Leisure/Leisure",
+			"style": {
+				"navigationBarTitleText": "休闲零食"
+			}
+		},
+		{
+			"path": "pages/all/nonStaple/nonStaple",
+			"style": {
+				"navigationBarTitleText": "粮油副食"
+			}
+		},
+		{
+			"path": "pages/all/drinks/drinks",
+			"style": {
+				"navigationBarTitleText": "酒水乳饮"
+			}
+		},
+		{
+			"path": "pages/all/nurse/nurse",
+			"style": {
+				"navigationBarTitleText": "个人护理"
+			}
+		},
+		{
+			"path": "pages/all/protection/protection",
+			"style": {
+				"navigationBarTitleText": "美容护肤"
+			}
+		},
+		{
+			"path": "pages/all/numerical/numerical",
+			"style": {
+				"navigationBarTitleText": "家电数码"
+			}
+		},
+		{
+			"path": "pages/all/kitchen/kitchen",
+			"style": {
+				"navigationBarTitleText": "家居厨具"
+			}
+		},
+		{
+			"path": "pages/all/fruits/fruits",
+			"style": {
+				"navigationBarTitleText": "生鲜水果"
+			}
+		},
+		{
+			"path": "pages/all/convenience/convenience",
+			"style": {
+				"navigationBarTitleText": "方便速食"
+			}
+		},
+		{
+			"path": "pages/all/medicine/medicine",
+			"style": {
+				"navigationBarTitleText": "医药保健"
+			}
+		},
+		{
+			"path": "pages/all/toy/toy",
+			"style": {
+				"navigationBarTitleText": "母婴玩具"
+			}
+		},
+		{
+			"path": "pages/all/paper/paper",
+			"style": {
+				"navigationBarTitleText": "纸品家具"
+			}
+		},
+		{
+			"path": "pages/all/department/department",
+			"style": {
+				"navigationBarTitleText": "日用百货"
+			}
+		},
+		{
+			"path": "pages/shoppingCat/shoppingCat",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/shoppingCat/collection/collection",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/my/balance/balance",
+			"style": {
+				"navigationBarTitleText": "我的余额",
+				"app-plus": {
+					"bounce": "none", //关闭窗口回弹效果
+					"titleNView": {
+						// "buttons": [ //原生标题栏按钮配置,
+						// {
+						// 	"type":"none",
+						// 	"titletext":"明细",
+						// 	"float":"right"
+						// }]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/my/balance/deposit/deposit"
+		},
+		{
+			"path": "pages/my/balance/accounts/accounts"
+		},
+		{
+			"path": "pages/my/frozen/frozen",
+			"style": {
+				"navigationBarTitleText": "冻结资金"
+			}
+		},
+		{
+			"path": "pages/my/venosa/venosa"
+		},
+		{
+			"path": "pages/my/personal/personal",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/my/transport/transport"
+		},
+		{
+			"path": "pages/my/address/address"
+		},
+		{
+			"path": "pages/my/award/award"
+		},
+		{
+			"path": "pages/my/invite/invite"
+		},
+		{
+			"path": "pages/my/promotion/promotion"
+		},
+		{
+			"path": "pages/my/transfer/transfer"
+		},
+		{
+			"path": "pages/my/applyFor/applyFor"
+		},
+		{
+			"path": "pages/my/administration/administration"
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "万业联盟",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color":"#8a8a8a",
+		"selectedColor":"#369eff",
+		"height": "100rpx",
+		"borderStyle":"black",
+		"backgroundColor":"#ffffff",
+		"iconWidth": "100rpx",
+		"list": [{
+			"pagePath":"pages/index/index",
+			"text":"首页",
+			"iconPath":"static/tabBar/index.png",
+			"selectedIconPath":"static/tabBar/index_active.png",
+			"iconWidth": "100rpx"
+		},
+		{
+			"pagePath":"pages/all/all",
+			"text":"所有",
+			"iconPath":"static/tabBar/all.png",
+			"selectedIconPath":"static/tabBar/all_active.png",
+			"iconWidth": "100rpx"
+		},
+		{
+			"pagePath":"pages/shoppingCat/shoppingCat",
+			"text":"购物车",
+			"iconPath":"static/tabBar/shoppingCat.png",
+			"selectedIconPath":"static/tabBar/shoppingCat_active.png",
+			"iconWidth": "100rpx"
+		},
+		{
+			"pagePath":"pages/my/my",
+			"text":"我的",
+			"iconPath":"static/tabBar/my.png",
+			"selectedIconPath":"static/tabBar/my_active.png",
+			"iconWidth": "100rpx"
+		}]
+	}
+}
