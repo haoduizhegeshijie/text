@@ -2,12 +2,12 @@
 	"easycom": {
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -61,91 +61,105 @@
 		{
 			"path": "pages/all/all",
 			"style": {
-				"navigationBarTitleText": "所有"
+				"navigationBarTitleText": "商品分类"
 			}
 		},
 		{
 			"path": "pages/all/own/own",
 			"style": {
-				"navigationBarTitleText": "所有商品"
+				"navigationBarTitleText": "所有商品",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/Leisure/Leisure",
 			"style": {
-				"navigationBarTitleText": "休闲零食"
+				"navigationBarTitleText": "休闲零食",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/nonStaple/nonStaple",
 			"style": {
-				"navigationBarTitleText": "粮油副食"
+				"navigationBarTitleText": "粮油副食",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/drinks/drinks",
 			"style": {
-				"navigationBarTitleText": "酒水乳饮"
+				"navigationBarTitleText": "酒水乳饮",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/nurse/nurse",
 			"style": {
-				"navigationBarTitleText": "个人护理"
+				"navigationBarTitleText": "个人护理",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/protection/protection",
 			"style": {
-				"navigationBarTitleText": "美容护肤"
+				"navigationBarTitleText": "美容护肤",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/numerical/numerical",
 			"style": {
-				"navigationBarTitleText": "家电数码"
+				"navigationBarTitleText": "家电数码",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/kitchen/kitchen",
 			"style": {
-				"navigationBarTitleText": "家居厨具"
+				"navigationBarTitleText": "家居厨具",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/fruits/fruits",
 			"style": {
-				"navigationBarTitleText": "生鲜水果"
+				"navigationBarTitleText": "生鲜水果",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/convenience/convenience",
 			"style": {
-				"navigationBarTitleText": "方便速食"
+				"navigationBarTitleText": "方便速食",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/medicine/medicine",
 			"style": {
-				"navigationBarTitleText": "医药保健"
+				"navigationBarTitleText": "医药保健",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/toy/toy",
 			"style": {
-				"navigationBarTitleText": "母婴玩具"
+				"navigationBarTitleText": "母婴玩具",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/paper/paper",
 			"style": {
-				"navigationBarTitleText": "纸品家具"
+				"navigationBarTitleText": "纸品家具",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/all/department/department",
 			"style": {
-				"navigationBarTitleText": "日用百货"
+				"navigationBarTitleText": "日用百货",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -251,7 +265,7 @@
 		},
 		{
 			"pagePath":"pages/all/all",
-			"text":"所有",
+			"text":"商品分类",
 			"iconPath":"static/tabBar/all.png",
 			"selectedIconPath":"static/tabBar/all_active.png",
 			"iconWidth": "100rpx"

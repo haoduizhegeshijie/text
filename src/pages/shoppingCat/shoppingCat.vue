@@ -136,12 +136,52 @@
 				}]
 			};
 		},
+		onShow() {
+			// uni.chooseLocation({
+			// 	success: function (res) {
+			// 		console.log('位置名称：' + res.name);
+			// 		console.log('详细地址：' + res.address);
+			// 		console.log('纬度：' + res.latitude);
+			// 		console.log('经度：' + res.longitude);
+			// 	}
+			// });
+			// try{
+			// 	let userId = uni.getStorageSync('userid')
+			// 	let token = uni.getStorageSync('token')
+			// 	if(token && userId) {
+			// 		request({
+			// 			url: '/cart',
+			// 			data: {
+			// 				token,
+			// 				userId
+			// 			}
+			// 		}).then(res => {
+			// 			if (res.data.code === '10019') {
+			// 				toast({title: '请先登录'})
+			// 				uni.navigateTo({
+			// 					url: 'pages/login/login'
+			// 				})
+			// 			}else if(res.data.code === '10012'){
+			// 				toast({title: '请先选购商品'})
+			// 				this.flag = true
+			// 			}else {
+			// 				toast({title: '购物车列表获取成功'})
+			// 				this.flag = false
+
+			// 				res.data.data.map()
+			// 			}
+			// 		})
+			// 	}
+			// }
+
+		},
 		methods: {
 			change() {
 				let num = 'a'
 				let that = this
 				if(that.num == 'a'){
 					return that.num = 'b'
+
 				}else{
 					return that.num = 'a'
 				}

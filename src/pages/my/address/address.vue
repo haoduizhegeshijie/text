@@ -2,55 +2,30 @@
 	<view>
 		<view>
 			<view>
-				<view>头像</view>
-				<view>
-					<image v-if="avarShow" :src="avar" mode=""></image>
-					<image v-else src="../../../static/123.jpg" mode=""></image>
-				</view>
+				<view>涛哥</view>
+				<view>18612399014</view>
 			</view>
-			<!-- <u-upload :action="action" :file-list="fileList" ></u-upload> -->
-			<view id='address_box'>
-				<view id='box_name'>用户名</view>
-				<view id='address_box'>
-					<view>*</view>
-					<view>xqq12345</view>
-				</view>
-			</view>
-			<view id='address_box'>
-				<view id='box_name'>姓名</view>
-				<view id='address_box'>
-					<view>*</view>
-					<view>方世煜</view>
-				</view>
-			</view>
-			<view id='address_box'>
-				<view id='box_name'>微信号</view>
-				<input id='box_value' type="text" placeholder="请输入你的微信号">
-			</view>
-			<view id='address_box'>
-				<view id='box_name'>出生日期</view>
+			<view>
+				<view>河南省郑州市管城回族区</view>
 				<view></view>
+				<view>绿地中心南塔2116</view>
 			</view>
-			<view id='address_box'>
-				<view id='box_name'>所在城市</view>
+			<view>
+				<view></view>
 				<view>
-					<picker @change="selCity" @columnchange="selMonitor" :value="addressIndex" :range="address" mode="multiSelector">
-					  <view class="setCon">
-					    <input type="text" :value="addressNode.province + addressNode.city" disabled="" />
-					    <icon class="iconfont iconkefu"></icon>
-					  </view>
-					</picker>
+					<view>
+						<image src="../../../static/my/address/compile.png" mode=""></image>
+						<view>编辑</view>
+					</view>
+					<view>
+						<image src="../../../static/my/address/delete.png" mode=""></image>
+						<view>删除</view>
+					</view>
 				</view>
 			</view>
-			<view id='address_box'>
-				<view id='box_name'>登录密码</view>
-				<input type="text" value="" placeholder="修改登录密码" />
-			</view>
-			<view id='address_box'>
-				<view id='box_name'>支付密码</view>
-				<input type="text" value="" placeholder="修改登录密码" />
-			</view>
-			<button type="default">确认修改</button>
+		</view>
+		<view>
+			<button type="warn">+ 新增地址</button>
 		</view>
 	</view>
 </template>

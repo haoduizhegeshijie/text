@@ -3,7 +3,7 @@
 		<image id='topimage' src='../../static/index/topimage.png' ></image>
 		<view id='top'>
 			<navigator id='service'>
-				<image id='service_img' src='../../static/index/service.png'></image>
+				<image id='service_img' src='../../static/index/location.png'></image>
 			</navigator>
 			<navigator id="jump" url="/pages/index/search/search">
 				<input id="input" placeholder="       搜索商品名称"></input>
@@ -13,24 +13,24 @@
 				<image id='information_img' src='../../static/index/information.png'></image>
 			</navigator>
 		</view>
-		<view id='title'>
-			<navigator url="/pages/index/upgrade/upgrade">
-				<image id='box_img' src='../../static/index/upgrade.png' ></image>
-				<view id='box_text'>升级礼包</view>
-			</navigator>
-			<navigator url="/pages/index/exchange/exchange">
-				<image id='box_img' src='../../static/index/exchange.png' ></image>
-				<view id='box_text'>金豆兑换</view>
-			</navigator>
-			<navigator url="/pages/index/shoppingMall/shoppingMall">
-				<image id='box_img' src='../../static/index/shoppingMall.png' ></image>
-				<view id='box_text'>会员商城</view>
-			</navigator>
-			<navigator url="/pages/index/signIn/signIn">
-				<image id='box_img' src='../../static/index/signIn.png' ></image>
-				<view id='box_text'>会员签到</view>
-			</navigator>
-		</view>
+<!--		<view id='title'>-->
+<!--			<navigator url="/pages/index/upgrade/upgrade">-->
+<!--				<image id='box_img' src='../../static/index/upgrade.png' ></image>-->
+<!--				<view id='box_text'>升级礼包</view>-->
+<!--			</navigator>-->
+<!--			<navigator url="/pages/index/exchange/exchange">-->
+<!--				<image id='box_img' src='../../static/index/exchange.png' ></image>-->
+<!--				<view id='box_text'>金豆兑换</view>-->
+<!--			</navigator>-->
+<!--			<navigator url="/pages/index/shoppingMall/shoppingMall">-->
+<!--				<image id='box_img' src='../../static/index/shoppingMall.png' ></image>-->
+<!--				<view id='box_text'>会员商城</view>-->
+<!--			</navigator>-->
+<!--			<navigator url="/pages/index/signIn/signIn">-->
+<!--				<image id='box_img' src='../../static/index/signIn.png' ></image>-->
+<!--				<view id='box_text'>会员签到</view>-->
+<!--			</navigator>-->
+<!--		</view>-->
 		<view>
 			<navigator url="/pages/index/signIn/signIn">
 				<image id='every_img' src='../../static/index/everyday.png'></image>
@@ -70,7 +70,7 @@
 		</view>
 		<van-tabs>
 			<view id='useless'>
-				<van-tab v-for="(name,index) in titles" :key="index" :title="name">
+				<van-tab @click="refresh" v-for="(name,index) in titles" :key="index" :title="name">
 					<view id='product'>
 						<image id='product_img' src='../../static/789.jpg'></image>
 						<view id='view'></view>
@@ -106,6 +106,9 @@
 		onLoad() {
 
 		},
+		onPullDownRefresh() {
+			this.refresh()
+		},
 		methods: {
 			choose(){
 				uni.chooseLocation({
@@ -113,6 +116,14 @@
 						return this.name=data.address.substr(6,3)
 					}
 				})
+			},
+			//下拉刷新
+			refresh(){
+				setTimeout(()=>{
+					this.list = demo
+					//停止下拉刷新
+					uni.stopPullDownRefresh();
+				},2000)
 			}
 		}
 	}

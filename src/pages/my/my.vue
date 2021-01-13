@@ -41,98 +41,120 @@
 				</navigator>
 			</view>
 		</view>
-		<view id='add'>
-			<view id='add_box'>
-				<view id='add_box_title'>我的订单</view>
-				<view id='add_box_refund'>
-					<navigator id='add_right' url='/pages/my/transport/transport'>
-						<view id='add_right_text'>退款售后</view>
-						<image id='add_right_img' src='../../static/my/return.png'></image>
-					</navigator>
-				</view>
-			</view>
-			<view id='indent'>
-				<view>
-					<navigator id='indent_box' class='indext' url='/pages/my/transport/transport'>
-						<image id='icon' src='../../static/my/all.png'></image>
-						<view id='indent_box_text'>全部订单</view>
-					</navigator>
-				</view>
-				<view>
-					<navigator id='indent_box' url='/pages/my/transport/transport'>
-						<image id='icon' src='../../static/my/payment.png'></image>
-						<view id='indent_box_text'>待付款</view>
-					</navigator>
-				</view>
-				<view>
-					<navigator id='indent_box' url='/pages/my/transport/transport'>
-						<image id='icon' src='../../static/my/shipments.png'></image>
-						<view id='indent_box_text'>待付款</view>
-					</navigator>
-				</view>
-				<view>
-					<navigator id='indent_box' url='/pages/my/transport/transport'>
-						<image id='icon' style='width: 55rpx;' src='../../static/my/delivery.png'></image>
-						<view id='indent_box_text'>待收货</view>
-					</navigator>
-				</view>
-				<view>
-					<navigator id='indent_box' url='/pages/my/transport/transport'>
-						<image id='icon' style='width: 45rpx;' src='../../static/my/evaluate.png'></image>
-						<view id='indent_box_text'>待评价</view>
-					</navigator>
-				</view>
-			</view>
-		</view>	
+<!--		<view id='add'>-->
+<!--			<view id='add_box'>-->
+<!--				<view id='add_box_title'>我的订单</view>-->
+<!--				<view id='add_box_refund'>-->
+<!--					<navigator id='add_right' url='/pages/my/transport/transport'>-->
+<!--						<view id='add_right_text'>退款售后</view>-->
+<!--						<image id='add_right_img' src='../../static/my/return.png'></image>-->
+<!--					</navigator>-->
+<!--				</view>-->
+<!--			</view>-->
+<!--			<view id='indent'>-->
+<!--				<view>-->
+<!--					<navigator id='indent_box' class='indext' url='/pages/my/transport/transport'>-->
+<!--						<image id='icon' src='../../static/my/all.png'></image>-->
+<!--						<view id='indent_box_text'>全部订单</view>-->
+<!--					</navigator>-->
+<!--				</view>-->
+<!--				<view>-->
+<!--					<navigator id='indent_box' url='/pages/my/transport/transport'>-->
+<!--						<image id='icon' src='../../static/my/payment.png'></image>-->
+<!--						<view id='indent_box_text'>待付款</view>-->
+<!--					</navigator>-->
+<!--				</view>-->
+<!--				<view>-->
+<!--					<navigator id='indent_box' url='/pages/my/transport/transport'>-->
+<!--						<image id='icon' src='../../static/my/shipments.png'></image>-->
+<!--						<view id='indent_box_text'>待付款</view>-->
+<!--					</navigator>-->
+<!--				</view>-->
+<!--				<view>-->
+<!--					<navigator id='indent_box' url='/pages/my/transport/transport'>-->
+<!--						<image id='icon' style='width: 55rpx;' src='../../static/my/delivery.png'></image>-->
+<!--						<view id='indent_box_text'>待收货</view>-->
+<!--					</navigator>-->
+<!--				</view>-->
+<!--				<view>-->
+<!--					<navigator id='indent_box' url='/pages/my/transport/transport'>-->
+<!--						<image id='icon' style='width: 45rpx;' src='../../static/my/evaluate.png'></image>-->
+<!--						<view id='indent_box_text'>待评价</view>-->
+<!--					</navigator>-->
+<!--				</view>-->
+<!--			</view>-->
+<!--		</view>	-->
 		<view id='content'>
-			<view style='margin-bottom: 50rpx; margin-top: 50rpx;'>其他服务</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/personal/personal'>
-					<image id='content_img' src='../../static/my/data.png'></image>
-					<view id='content_text'>我的资料</view>
-				</navigator>
-			</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/award/award'>
-					<image id='content_img' src='../../static/my/datail.png'></image>
-					<view id='content_text'>奖励明细</view>
-				</navigator>
-			</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/promotion/promotion'>
-					<image id='content_img' src='../../static/my/promotion.png'></image>
-					<view id='content_text'>推广二维码</view>
-				</navigator>
-			</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/applyFor/applyFor'>
-					<image id='content_img' src='../../static/my/applyfor.png'></image>
-					<view id='content_text'>申请商家</view>
-				</navigator>
-			</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/administration/administration'>
-					<image id='content_img' src='../../static/my/administration.png'></image>
-					<view id='content_text'>商家管理</view>
-				</navigator>
-			</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/invite/invite'>
-					<image id='content_img' src='../../static/my/invite.png'></image>
-					<view id='content_text'>我的邀请</view>
-				</navigator>
-			</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/address/address'>
-					<image id='content_img' src='../../static/my/address.png'></image>
-					<view id='content_text'>地址管理</view>
-				</navigator>
-			</view>
-			<view id='content_box'>
-				<navigator id='content_chunk' url='/pages/my/invite/invite'>
-					<image id='content_img' src='../../static/my/collect.png'></image>
-					<view id='content_text'>我的收藏</view>
-				</navigator>
+<!--			<view id='content_box'>-->
+<!--				<navigator id='content_chunk' url='/pages/my/personal/personal'>-->
+<!--					<image id='content_img' src='../../static/my/data.png'></image>-->
+<!--					<view id='content_text'>我的资料</view>-->
+<!--				</navigator>-->
+<!--			</view>-->
+			<view style="border-radius: 10px; marign-top: 50rpx; background-color: #fff; width: 720rpx; margin-left: 10rpx; margin-right: 20rpx;">
+				<view id='content_box'>
+					<navigator id='content_chunk' url='/pages/my/award/award'>
+						<view id="content_chunk_box">
+							<image id='content_img' src='../../static/my/datail.png'></image>
+							<view id='content_text'>奖励明细</view>
+						</view>
+						<image id="content_chunk_right" src='../../static/my/right.png'></image>
+					</navigator>
+				</view>
+				<view id='content_box'>
+					<navigator id='content_chunk' url='/pages/my/promotion/promotion'>
+						<view id="content_chunk_box">
+							<image id='content_img' src='../../static/my/promotion.png'></image>
+							<view id='content_text'>推广二维码</view>
+						</view>
+						<image id="content_chunk_right" src='../../static/my/right.png'></image>
+					</navigator>
+				</view>
+				<view id='content_box'>
+					<navigator id='content_chunk' url='/pages/my/applyFor/applyFor'>
+						<view id="content_chunk_box">
+							<image id='content_img' src='../../static/my/applyfor.png'></image>
+							<view id='content_text'>申请商家</view>
+						</view>
+						<image id="content_chunk_right" src='../../static/my/right.png'></image>
+					</navigator>
+				</view>
+				<view id='content_box'>
+					<navigator id='content_chunk' url='/pages/my/administration/administration'>
+						<view id="content_chunk_box">
+							<image id='content_img' src='../../static/my/administration.png'></image>
+							<view id='content_text'>商家管理</view>
+						</view>
+						<image id="content_chunk_right" src='../../static/my/right.png'></image>
+					</navigator>
+				</view>
+				<view id='content_box'>
+					<navigator id='content_chunk' url='/pages/my/invite/invite'>
+						<view id="content_chunk_box">
+							<image id='content_img' src='../../static/my/invite.png'></image>
+							<view id='content_text'>我的邀请</view>
+						</view>
+						<image id="content_chunk_right" src='../../static/my/right.png'></image>
+					</navigator>
+				</view>
+				<view id='content_box'>
+					<navigator id='content_chunk' url='/pages/my/address/address'>
+						<view id="content_chunk_box">
+							<image id='content_img' src='../../static/my/address.png'></image>
+							<view id='content_text'>地址管理</view>
+						</view>
+						<image id="content_chunk_right" src='../../static/my/right.png'></image>
+					</navigator>
+				</view>
+				<view id='content_box'>
+					<navigator id='content_chunk' url='/pages/my/invite/invite'>
+						<view id="content_chunk_box">
+							<image id='content_img' src='../../static/my/collect.png'></image>
+							<view id='content_text'>我的收藏</view>
+						</view>
+						<image id="content_chunk_right" src='../../static/my/right.png'></image>
+					</navigator>
+				</view>
 			</view>
 		</view>
 		<view id='logout'>
@@ -148,6 +170,7 @@
 <style>
 	#my{
 		position: relative;
+		background-color: #f5f6fa;
 	}
 	#header_img{
 		width: 750rpx;
@@ -198,10 +221,6 @@
 	}
 	#num{
 		font-size: 37rpx;
-	}
-	#num_name{
-		font-size: 37rpx;
-		white-space:nowrap;
 	}
 	#integral{
 		margin-top: 26rpx;
@@ -314,27 +333,37 @@
 	}
 	#content{
 		width: 750rpx;
-		margin-right: 30rpx;
-		margin-left: 50rpx;
+		margin-top: 200rpx;
 	}
 	#content_box{
+		margin-left: 20rpx;
 		display: inline-block;
-		width: 170rpx;
-		height: 117rpx;
+		width: 690rpx;
+		padding-bottom: 20rpx;
+		padding-top: 20rpx;
+		border-bottom: 1px solid #999999;
 	}
 	#content_chunk{
 		display: flex;
-		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+	}
+	#content_chunk_box{
+		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 	#content_img{
-		width: 50rpx;
-		height: 50rpx;
+		width: 40rpx;
+		height: 40rpx;
+		padding-right: 20rpx;
 	}
 	#content_text{
-		margin-top: 10rpx;
-		font-size: 20rpx;	
+		font-size: 40rpx;
+	}
+	#content_chunk_right{
+		width: 25rpx;
+		height: 25rpx;
 	}
 	#logout{
 		display: flex;

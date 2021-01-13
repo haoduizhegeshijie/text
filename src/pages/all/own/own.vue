@@ -31,6 +31,13 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+
+			}
+		}
+	}
 </script>
 
 <style>
@@ -40,7 +47,7 @@
 	#header_box{
 		padding-left: 100rpx;
 		width: 250rpx;
-		border: 1rpx solid #000000;
+		border: 1px solid #000000;
 	}
 	#useless{
 		display: flex;
