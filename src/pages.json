@@ -53,6 +53,15 @@
 			"path": "pages/login/login"
 		},
 		{
+			"path": "pages/login/agreement"
+		},
+		{
+			"path": "pages/login/forget"
+		},
+		{
+			"path": "pages/login/reg"
+		},
+		{
 			"path": "pages/index/newlyElected/newlyElected",
 			"style": {
 				"navigationBarTitleText": "新选大赏"
@@ -238,6 +247,9 @@
 		},
 		{
 			"path": "pages/my/applyFor/applyFor"
+		},
+		{
+			"path": "pages/my/collect/collect"
 		},
 		{
 			"path": "pages/my/administration/administration"

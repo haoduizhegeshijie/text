@@ -1,23 +1,28 @@
 <template>
-	<view id='background' :style="{ height: windowHeight + 'px' }">
-		<view id='img'>
-			<image id='headPortrait' src='/static/login/headPortrait.png'></image>
+	<view class="content">
+		<view class="header">
+			<image src="../../static/my/default.png"></image>
 		</view>
-		<view id='box'>
-			<view>
-				<image id='username_img' src='/static/login/username.png'></image>
-				<input id='username_input' type="text" placeholder="请输入用户名" />	
+
+		<view class="list">
+			<view class="list-call">
+				<image class="img" src="../../static/login/username.png"></image>
+				<input class="sl-input" v-model="phone" type="number" maxlength="11" placeholder="输入手机号" />
 			</view>
-			<view class="password">
-				<image id='password_img' src='/static/login/password.png'></image>
-				<input id="password_input" type="text" placeholder="请输入密码" />	
+			<view class="list-call">
+				<image class="img" src="../../static/login/password.png"></image>
+				<input class="sl-input" v-model="pwd" type="text" maxlength="32" placeholder="输入密码" password="true" />
 			</view>
-			<button id="button" @click='login'>立即登录</button>
 		</view>
-		<view>
-			<navigator id='forget'>
-				<view>忘记密码</view>
-			</navigator>
+
+		<view class="button-login" hover-class="button-hover" @tap="bindLogin()">
+			<text>登录</text>
+		</view>
+
+		<view class="agreenment">
+			<navigator url="forget" open-type="navigate">忘记密码</navigator>
+			<text>|</text>
+			<navigator url="reg" open-type="navigate">注册账户</navigator>
 		</view>
 	</view>
 </template>
@@ -26,87 +31,143 @@
 	export default {
 		data() {
 			return {
-				windowHeight: 0
-			}
-		},
-		onLoad() {
-			uni.getSystemInfo({
-				success: (res) => {
-					this.windowHeight = res.windowHeight;
-					console.log(this.windowHeight);
-				},
-			})
+				phone: '',
+				pwd: ''
+			};
 		},
 		methods: {
-			login() {
-				uni.redirectTo({
-					url: '../index/index'
-				})
+			bindLogin() {
+				if (this.phone.length != 11) {
+					uni.showToast({
+						icon: 'none',
+						title: '手机号不正确'
+					});
+					return;
+				}
+				// if (this.pwd.length < 6) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '密码不正确'
+				// 	});
+				// 	return;
+				// }
+				uni.request({
+					url: 'http://tuh.dingf916.cn/member_login',
+					data: {
+						phone: this.phone,
+						pwd: this.pwd
+					},
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					method: 'POST',
+					dataType: 'json',
+					success: (res) => {
+						if (res.data.code != 200) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							});
+						} else {
+							//成功后的逻辑
+							uni.navigateBack();
+						}
+					}
+				});
 			}
 		}
 	}
 </script>
 
 <style>
-	#background{
-		background-color: #0CA8FF;
+	.content {
 		display: flex;
 		flex-direction: column;
-		position: relative;
+		justify-content: center;
 	}
-	#img{
-		margin-top: 30%;
+
+	.header {
+		width: 161rpx;
+		height: 161rpx;
+		background: rgba(63, 205, 235, 1);
+		box-shadow: 0rpx 12rpx 13rpx 0rpx rgba(63, 205, 235, 0.47);
+		border-radius: 50%;
+		margin-top: 30rpx;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.header image {
+		width: 161rpx;
+		height: 161rpx;
+		border-radius: 50%;
+	}
+
+	.list {
+		display: flex;
+		flex-direction: column;
+		padding-top: 50rpx;
+		padding-left: 70rpx;
+		padding-right: 70rpx;
+	}
+
+	.list-call {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		height: 100rpx;
+		color: #333333;
+		border-bottom: 0.5px solid #e2e2e2;
+	}
+
+	.list-call .img {
+		width: 40rpx;
+		height: 40rpx;
+	}
+
+	.list-call .sl-input {
+		flex: 1;
+		text-align: left;
+		font-size: 32rpx;
+		margin-left: 16rpx;
+	}
+
+	.button-login {
+		color: #FFFFFF;
+		font-size: 34rpx;
+		width: 470rpx;
+		height: 100rpx;
+		background-color: #369eff;
+		box-shadow: 0rpx 0rpx 13rpx 0rpx rgba(164, 217, 228, 0.2);
+		border-radius: 50rpx;
+		line-height: 100rpx;
 		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 100rpx;
 	}
-	#headPortrait{
-		width: 30%;
-		height: 200rpx;
+
+	.button-hover {
+		background: linear-gradient(-90deg, rgba(63, 205, 235, 0.8), rgba(188, 226, 158, 0.8));
 	}
-	#box{
-		height: 400rpx;
-		background-color: white;
-		margin: 0 30rpx;
-		border-radius: 20rpx;
+
+	.agreenment {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		font-size: 30rpx;
+		margin-top: 80rpx;
+		color: #FFA800;
+		text-align: center;
+		height: 40rpx;
+		line-height: 40rpx;
 	}
-	#username_img{
-		margin-top: 50rpx;
-		left: 30rpx;
-		width: 80rpx;
-		height: 80rpx;
-	}
-	#username_input{
-		margin-top: 50rpx;
-		width: 500rpx;
-		height: 80rpx;
-		margin-left: 30rpx;
-		display: inline-block;
-		line-height: 80rpx;
-	}
-	#password_img{
-		margin-top: 50rpx;
-		left: 30rpx;
-		width: 80rpx;
-		height: 80rpx;
-	}
-	#password_input{
-		margin-top: 50rpx;
-		width: 500rpx;
-		height: 80rpx;
-		margin-left: 30rpx;
-		display: inline-block;
-		line-height: 80rpx;
-	}
-	button{
-		width: 500rpx;
-		margin: 0 auto;
-		background-color: #007AFF;
-		border-radius: 10%;
-		color: white;
-	}
-	#forget{
-		position: absolute;
-		bottom: 5%;
-		left: 45%;
-		font-size: 5%;
+
+	.agreenment text {
+		font-size: 24rpx;
+		margin-left: 15rpx;
+		margin-right: 15rpx;
 	}
 </style>
