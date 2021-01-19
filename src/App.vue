@@ -4,6 +4,10 @@
 </style>
 <script>
 	export default {
+        globalData: {
+            openid: '',
+            token: ''
+        },
 		onLaunch: function() {
 			console.log('App Launch')
 		},

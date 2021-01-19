@@ -7,7 +7,7 @@
 		<view class="list">
 			<view class="list-call">
 				<image class="img" src="../../static/login/username.png"></image>
-				<input class="sl-input" v-model="phone" type="number" maxlength="11" placeholder="输入手机号" />
+				<input class="sl-input" v-model="submitForm.phone" type="number" @blur="doInput(submitForm.phone)" maxlength="11" placeholder="手机号" />
 			</view>
 			<view class="list-call">
 				<image class="img" src="../../static/login/password.png"></image>
@@ -28,33 +28,47 @@
 </template>
 
 <script>
+	import Vue from "vue";
+
 	export default {
 		data() {
 			return {
-				phone: '',
-				pwd: ''
+				pwd: '',
+				submitForm: {
+					phone: ''
+				},
+
 			};
 		},
 		methods: {
-			bindLogin() {
-				if (this.phone.length != 11) {
+			doInput(val){
+				let regopenid = (/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|14[0|1|2|3|5|6|7|8|9]|15[0|1|2|3|5|6|7|8|9]|17[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/)
+				if(!regopenid.test(val)){
+					uni.showToast({
+						icon: 'none',
+						title: '手机号格式不正确'
+					})
+				}
+			},
+			bindLogin: function () {
+				if (this.submitForm.phone.length != 11) {
 					uni.showToast({
 						icon: 'none',
 						title: '手机号不正确'
 					});
 					return;
 				}
-				// if (this.pwd.length < 6) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		title: '密码不正确'
-				// 	});
-				// 	return;
-				// }
+				if (this.pwd.length < 6) {
+					uni.showToast({
+						icon: 'none',
+						title: '密码不正确'
+					});
+					return;
+				}
 				uni.request({
 					url: 'http://tuh.dingf916.cn/member_login',
 					data: {
-						phone: this.phone,
+						phone: this.submitForm.phone,
 						pwd: this.pwd
 					},
 					header: {
@@ -65,15 +79,29 @@
 					success: (res) => {
 						if (res.data.code != 200) {
 							uni.showToast({
-								title: res.data.msg,
+								title: res.data.data.msg,
 								icon: 'none'
 							});
 						} else {
+							let info = res.data.data
+							uni.setStorageSync(
+								'history',
+								{
+									token: info.token,
+									openid: info.openid
+								}
+							)
 							//成功后的逻辑
 							uni.navigateBack();
 						}
 					}
 				});
+			},
+			skip(){
+				Vue.prototype.$token = this.token
+				Vue.prototype.$openid = this.openid
+				console.log(Vue.prototype.$token)
+				console.log(Vue.prototype.$openid)
 			}
 		}
 	}

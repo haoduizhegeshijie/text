@@ -6,10 +6,10 @@
 
 		<view class="list">
 			<view class="list-call">
-				<input class="sl-input" v-model="openid" type="username" minlength="6" placeholder="用户名" />
+				<input class="sl-input" v-model="submitForm.openid" type="username" @blur="verify(submitForm.openid)" minlength="6" placeholder="用户名" />
 			</view>
 			<view class="list-call">
-				<input class="sl-input" v-model="phone" type="number" maxlength="11" placeholder="手机号" />
+				<input class="sl-input" v-model="submitForm.phone" type="number" @blur="doInput(submitForm.phone)" maxlength="11" placeholder="手机号" />
 			</view>
 			<view class="list-call">
 				<input class="sl-input" v-model="pwd" type="text" maxlength="32" placeholder="登录密码" :password="!showPassword" />
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-	import util from '../../util.js';
 	var _this, js;
 	export default {
 		onLoad() {
@@ -48,36 +47,23 @@
 		onUnload() {
 			clearInterval(js)
 			this.second = 0;
+			this.clear()
 		},
 		data() {
 			return {
-				openid: '',
-				phone: '',
 				pwd: '',
 				pwd_new: '',
 				pid: '1',
 				code: '',
 				invitation: '',
-				agreement: true,
-				showPassword: false
+				agreement: false,
+				showPassword: false,
+				submitForm: {
+					openid: "",
+					phone: ''
+				}
 				// second: 0
 			};
-		},
-		// computed: {
-		// 	yanzhengma() {
-		// 		if (this.second == 0) {
-		// 			return '获取验证码';
-		// 		} else {
-		// 			if (this.second < 10) {
-		// 				return '重新获取0' + this.second;
-		// 			} else {
-		// 				return '重新获取' + this.second;
-		// 			}
-		// 		}
-		// 	}
-		// },
-		onUnload() {
-			this.clear()
 		},
 		methods: {
 			clear(){
@@ -91,33 +77,31 @@
 			agreementSuccess() {
 				this.agreement = !this.agreement;
 			},
-			// verify(){
-			// 	let rename = util.checkUsername(this.username)
-			// 	if (!rename) {
-			// 		uni.showToast({
-			// 			icon: 'none',
-			// 			title: '用户名必须是字母加数字的组合且不能少于6位'
-			// 		});
-			// 	}
-			// },
+			verify(val){
+				let regopenid = (/^[a-zA-Z]\w{5,17}$/)
+				if(!regopenid.test(val)){
+					uni.showToast({
+						title: '请输入字母和数字不少于六位，且第一位为字母'
+					})
+				}
+			},
+			doInput(val){
+				let regopenid = (/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|14[0|1|2|3|5|6|7|8|9]|15[0|1|2|3|5|6|7|8|9]|17[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/)
+				if(!regopenid.test(val)){
+					uni.showToast({
+						icon: 'none',
+						title: '手机号格式不正确'
+					})
+				}
+			},
 			getcode() {
-				if (this.phone.length != 11) {
+				if (this.submitForm.phone.length != 11) {
 					uni.showToast({
 						icon: 'none',
 						title: '手机号不正确'
 					});
 					return;
 				}
-				// if (this.username != '^[0-9A-Za-z]{6,10}$') {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		title: '用户名必须是字母加数字的组合且不能少于6位'
-				// 	});
-				// 	return;
-				// }
-				// if (this.second > 0) {
-				// 	return;
-				// }
 				this.second = 60;
 				//请求业务
 				js = setInterval(function() {
@@ -128,6 +112,7 @@
 				}, 1000)
 			},
 			bindLogin() {
+				console.log(this.pwd.length)
 				if (this.agreement == false) {
 					uni.showToast({
 						icon: 'none',
@@ -135,14 +120,14 @@
 					});
 					return;
 				}
-				if (this.phone.length != 11) {
+				if (this.submitForm.phone.length != 11) {
 					uni.showToast({
 						icon: 'none',
 						title: '手机号不正确'
 					});
 					return;
 				}
-				if (this.phone.length < 6) {
+				if (this.pwd.length < 6) {
 					uni.showToast({
 						icon: 'none',
 						title: '请输入大于六位数'
@@ -156,18 +141,11 @@
 					});
 					return;
 				}
-				// if (this.code.length != 4) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		title: '验证码不正确'
-				// 	});
-				// 	return;
-				// }
 				uni.request({
 					url: 'http://tuh.dingf916.cn/member_register',
 					data: {
-						openid: this.openid,
-						phone: this.phone,
+						openid: this.submitForm.openid,
+						phone: this.submitForm.phone,
 						pid: this.pid,
 						pwd: this.pwd,
 						pwd_new: this.pwd_new,

@@ -62,6 +62,9 @@
 			"path": "pages/login/reg"
 		},
 		{
+			"path": "pages/my/set/set"
+		},
+		{
 			"path": "pages/index/newlyElected/newlyElected",
 			"style": {
 				"navigationBarTitleText": "新选大赏"

@@ -9,45 +9,44 @@
 					</navigator>
 					<view id='personal'>
 						<view id='personal_box'>
-							<view id='username'>zhang1964</view>
+							<view id='username'>{{openid}}</view>
 							<view id='num'>邀请ID:123456</view>
 						</view>
 						<view id='integral'>
 							<image id='integral_img' src="../../static/my/rectangle.png" mode=""></image>
-							<view id='integral_name'>LV.03</view>
+							<view id='integral_name'>LV.{{level}}</view>
 							<image id='integral_img' src="../../static/my/fans.png" mode=""></image>
 						</view>
 					</view>
+				</view>
+				<view id="tab">
+					<navigator url="set/set">
+						<image src="../../static/my/set.png"></image>
+					</navigator>
 				</view>
 			</view>
 			<view id='header_money'>
 				<navigator id='money' url='balance/balance'>
 					<view id='header_money_box'>
-						<view id='money_num'>￥982.14</view>
+						<view id='money_num'>￥{{credit2}}</view>
 						<view id='money_name'>余额</view>
 					</view>
 				</navigator>
-				<navigator url='frozen/frozen'>
+				<navigator id='money' url='frozen/frozen'>
 					<view id='header_money_box'>
-						<view id='money_num'>￥0</view>
+						<view id='money_num'>￥{{dongjie}}</view>
 						<view id='money_name'>冻结</view>
 					</view>
 				</navigator>
-				<navigator url='venosa/venosa'>
+				<navigator id='money' url='venosa/venosa'>
 					<view id='header_money_box'>
-						<view id='money_num'>196</view>
+						<view id='money_num'>{{credit1}}</view>
 						<view id='money_name'>金豆余额</view>
 					</view>
 				</navigator>
 			</view>
 		</view>
 		<view id='content'>
-<!--			<view id='content_box'>-->
-<!--				<navigator id='content_chunk' url='/pages/my/personal/personal'>-->
-<!--					<image id='content_img' src='../../static/my/data.png'></image>-->
-<!--					<view id='content_text'>我的资料</view>-->
-<!--				</navigator>-->
-<!--			</view>-->
 			<view class="list" v-for="(list,list_i) in severList" :key="list_i">
 				<view class="li" v-for="(li,li_i) in list" @tap="toPage(list_i,li_i)" v-bind:class="{'noborder':li_i==list.length-1}"  hover-class="hover" :key="li.name" >
 					<view class="icon"><image :src="'../../static/my/'+li.icon"></image></view>
@@ -56,17 +55,59 @@
 				</view>
 			</view>
 		</view>
-<!--		<view id='logout'>-->
-<!--			<image id='logout_img' src="../../static/my/quit.png" mode="">&nbsp; </image>-->
-<!--			<view id='logout_text'>&nbsp;退出登录</view>-->
-<!--		</view>-->
 	</view>
 </template>
 
 <script>
+	import Vue from "vue";
+
 	export default {
+		onShow() {
+			var that = this;
+			uni.getStorage({
+				key: 'history',
+				success(res){
+					that.history = res.data
+					// if(that.history.length==0){
+					// 	that.setData({
+					// 		status:false
+					// 	});
+					// }else{
+					// 	that.setData({
+					// 		status:true
+					// 	})
+					// }
+				},
+				fail: function(res) {
+					console.log(res+'aaaaa')
+				}
+			});
+			this.token = this.history.token
+			this.openid = this.history.openid
+			console.log(this.token, this.openid)
+			if(this.openid == ''){
+				if(this.token == ''){
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+				}
+			}else{
+
+				// console.log(this.openid)
+				// console.log(this.token)
+				this.apply(this.openid, this.token);
+			}
+		},
 		data() {
 			return {
+				storage: {},
+				openid: '', //用户openid
+				team_level_id: '', // 用户等级id
+				level: '', // 用户身份等级
+				credit1: '', // 金豆
+				dongjie: '', //冻结
+				credit2: '', //余额
+				token: '',
 				severList:[
 					[
 						{name:'全部订单',icon:'all.png', url:'/pages/my/transport/transport'},
@@ -90,6 +131,35 @@
 				uni.navigateTo({
 				    url: this.severList[list_i][li_i].url
 				});
+			},
+			apply(){
+				uni.request({
+					url: 'http://tuh.dingf916.cn/member_info',
+					data: {},
+					header: {
+						'Authorization' : 'Bearer ' + this.token,
+						'Content-Type' : 'application/x-www-form-urlencoded',
+						'openid': this.openid
+					},
+					method: 'POST',
+					dataType: 'json',
+					success: (res) => {
+						// if (res.data.code != 200) {
+						// 	uni.showToast({
+						// 		title: res.data.msg,
+						// 		icon: 'none'
+						// 	});
+						// } else {
+						// 	uni.showToast({
+						// 		title: res.data.msg
+						// 	});
+						// 	setTimeout(function() {
+						// 		uni.navigateBack();
+						// 	}, 1500)
+						// }
+						console.log(res)
+					}
+				})
 			}
 		}
 	}
@@ -105,7 +175,7 @@
 		height: 350rpx;
 	}
 	#header{
-		height: 400rpx;
+		height: 360rpx;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -176,6 +246,13 @@
 							line-height: 24rpx;
 						}
 					}
+				}
+			}
+			#tab{
+
+				image {
+					width: 50rpx;
+					height: 50rpx;
 				}
 			}
 		}
