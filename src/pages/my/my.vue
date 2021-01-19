@@ -59,8 +59,6 @@
 </template>
 
 <script>
-	import Vue from "vue";
-
 	export default {
 		onShow() {
 			var that = this;

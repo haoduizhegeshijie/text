@@ -15,8 +15,7 @@
             "delay" : 0
         },
         "modules" : {
-            "Contacts" : {},
-            "Payment" : {}
+            "Contacts" : {}
         },
         /* 模块配置 */
         "distribute" : {
@@ -37,7 +36,6 @@
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
                     "<uses-permission android:name=\"android.permission.INTERNET\"/>",
-                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
@@ -48,7 +46,16 @@
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "proxy": {
+                    "/dpc": {
+                        "target": "http://dpc.dapeis.net",
+                        "changeOrigin": true,
+                        "secure": false,
+
+                        "pathRewrite":{"^/dpc":""}
+                    }
+                }
             },
             "ios" : {},
             /* ios打包配置 */
@@ -62,16 +69,7 @@
                         "appid" : ""
                     }
                 },
-                "payment" : {
-                    "alipay" : {
-                        "__platform__" : [ "ios", "android" ]
-                    },
-                    "weixin" : {
-                        "__platform__" : [ "ios", "android" ],
-                        "appid" : "",
-                        "UniversalLinks" : ""
-                    }
-                },
+                "payment" : {},
                 "geolocation" : {}
             },
             "splashscreen" : {
