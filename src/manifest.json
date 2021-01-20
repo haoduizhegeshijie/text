@@ -104,5 +104,20 @@
     },
     "mp-qq" : {
         "usingComponents" : true
+    },
+    "h5": {
+        "devServer": {
+            "https": false,
+            "proxy": {
+                "/api": {
+                    "target": "http://tuh.dingf916.cn",
+                    "changeOrigin": true,
+                    "secure": false,
+                    "pathRewrite": {
+                        "^/api": "/"
+                    }
+                }
+            }
+        }
     }
 }

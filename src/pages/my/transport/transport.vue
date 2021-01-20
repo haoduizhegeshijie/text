@@ -39,22 +39,64 @@
 				</view>
 			</view>
 		</view>
-		<view class="" v-show="type == 2">
-			<view>
-				<view>粉丝</view>
-				<view>9</view>
+		<view class="details" v-show="type == 2">
+			<view id="box">
+				<view id="orderNumber">
+					<view id="orderNumber_name">订单号：</view>
+					<view id="orderNumber_num">SH20200429151334849463</view>
+				</view>
+				<view id="subject">
+					<view id="index">
+						<view id="productName">
+							<view id="productName_num">casd</view>
+							<view id="particulars">
+								<view id="originalCost_val">398.00</view>
+								<view id="commodity_val">*1</view>
+							</view>
+						</view>
+						<view id="currentPrice">
+							<view id="currentPrice_name">实际支付金额：</view>
+							<view id="currentPrice_val">398.00</view>
+						</view>
+						<view id="purchaser">
+							<view id="purchaser_val">陈秋霞:13939393939</view>
+							<view id="time">
+								<view id="time_name">下单时间：</view>
+								<view id="time_val">1588144414</view>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
-			<view>
-				<view>会员</view>
-				<view>2</view>
-			</view>
-			<view>
-				<view>经理</view>
-				<view>4</view>
-			</view>
-			<view>
-				<view>联营店主</view>
-				<view>6</view>
+		</view>
+		<view class="details" v-show="type == 3">
+			<view id="box">
+				<view id="orderNumber">
+					<view id="orderNumber_name">订单号：</view>
+					<view id="orderNumber_num">SH20200429151334849463</view>
+				</view>
+				<view id="subject">
+					<view id="index">
+						<view id="productName">
+							<view id="productName_num">casd</view>
+							<view id="particulars">
+								<view id="originalCost_val">398.00</view>
+								<view id="commodity_val">*1</view>
+							</view>
+						</view>
+						<view id="currentPrice">
+							<view id="currentPrice_name">实际支付金额：</view>
+							<view id="currentPrice_val">398.00</view>
+						</view>
+						<view id="purchaser">
+							<view id="purchaser_val">陈秋霞:13939393939</view>
+							<view id="time">
+								<view id="time_name">下单时间：</view>
+								<view id="time_val">1588144414</view>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -120,11 +162,12 @@
 					success: (res) => {
 						if (res.data.code != 200) {
 							uni.showToast({
-								title: res.data.msg,
+								title: res.data.data.msg,
 								icon: 'none'
 							});
 						} else {
-							var obj = res.data.data
+							this.obj = res.data.data
+							console.log(this.obj)
 						}
 					}
 				})
@@ -167,6 +210,7 @@
 		}
 
 		.details{
+			margin: 0 10rpx;
 
 			#box{
 				background-color: #fff;
@@ -197,92 +241,57 @@
 				#index{
 
 					#productName{
-						width: 750rpx;
+						width: 710rpx;
 						height: 200rpx;
 						margin-bottom: 25rpx;
 						display: flex;
 
 						#productName_num{
-							font-size: 50rpx;
+							font-size: 100rpx;
 							flex: 1;
 						}
 						#particulars{
-							width: 100rpx;
+							width: 150rpx;
 
 							#originalCost_val{
-
+								font-size: 20px;
 							}
 
 							#commodity_val{
-
+								font-size: 20px;
 							}
 						}
 					}
 
-					#purchaser{
+					#currentPrice{
+						float: right;
 						display: flex;
 						margin-bottom: 25rpx;
 
-						#purchaser_name{
+						#currentPrice_name{
 							font-size: 25rpx;
 							font-weight: bold;
 						}
 
-						#purchaser_val{
+						#currentPrice_val{
 							font-size: 27rpx;
 						}
 					}
 
-					#time{
+					#purchaser{
+						margin-top: 100rpx;
 						display: flex;
 
-						#time_name{
+						#purchaser_val{
+							width: 375rpx;
 							font-size: 20rpx;
 							font-weight: bold;
+							text-align: center;
 						}
 
-						#time_val{
-							font-size: 22rpx;
-						}
-					}
-				}
-
-				#money{
-					display: flex;
-					flex-direction: column;
-					justify-content: space-around;
-
-					#particulars{
-
-						#originalCost{
+						#time{
+							flex: 1;
 							display: flex;
-
-							#originalCost_name{
-								font-weight: bold;
-							}
-
-						}
-
-						#commodity{
-							display: flex;
-
-							#commodity_name{
-								font-weight: bold;
-							}
-
-						}
-					}
-
-
-					#currentPrice{
-						display: flex;
-
-						#currentPrice_name{
-							font-weight: bold;
-						}
-
-						#currentPrice_val{
-
 						}
 					}
 				}

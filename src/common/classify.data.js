@@ -3,6 +3,65 @@ export default[
         "name": "所有商品",
         "foods": [
             {
+                "name": "游泳装备",
+                "key": "游泳",
+                "icon": "http://img.kiwifruits.cn/classify/14/1.jpg",
+                "cat": 0
+            },
+            {
+                "name": "泳镜",
+                "key": "泳镜",
+                "icon": "http://img.kiwifruits.cn/classify/14/2.jpg",
+                "cat": 0
+            },
+            {
+                "name": "户外装备",
+                "key": "户外",
+                "icon": "http://img.kiwifruits.cn/classify/14/3.jpg",
+                "cat": 0
+            },
+            {
+                "name": "健身服饰",
+                "key": "健身",
+                "icon": "http://img.kiwifruits.cn/classify/14/4.jpg",
+                "cat": 0
+            },
+            {
+                "name": "泳衣",
+                "key": "泳衣",
+                "icon": "http://img.kiwifruits.cn/classify/14/5.jpg",
+                "cat": 0
+            },
+            {
+                "name": "瑜伽垫",
+                "key": "瑜伽垫",
+                "icon": "http://img.kiwifruits.cn/classify/14/6.jpg",
+                "cat": 0
+            },
+            {
+                "name": "瑜伽用品",
+                "key": "瑜伽",
+                "icon": "http://img.kiwifruits.cn/classify/14/7.jpg",
+                "cat": 0
+            },
+            {
+                "name": "健身装备",
+                "key": "健身",
+                "icon": "http://img.kiwifruits.cn/classify/14/8.jpg",
+                "cat": 0
+            },
+            {
+                "name": "球迷用品",
+                "key": "球迷",
+                "icon": "http://img.kiwifruits.cn/classify/14/9.jpg",
+                "cat": 0
+            }
+        ]
+    },
+    {
+        "name": "休闲零食",
+        "foods": [
+            {
                 "name": "A字裙",
                 "key": "A字裙",
                 "icon": "http://img.kiwifruits.cn/classify/1/1.jpg",
@@ -89,7 +148,7 @@ export default[
         ]
     },
     {
-        "name": "休闲零食 ",
+        "name": "粮油副食",
         "foods": [
             {
                 "name": "火锅",
@@ -178,7 +237,7 @@ export default[
         ]
     },
     {
-        "name": "粮油副食",
+        "name": "酒水乳饮",
         "foods": [
             {
                 "name": "化妆刷",
@@ -274,7 +333,7 @@ export default[
         ]
     },
     {
-        "name": "酒水乳饮",
+        "name": "个人护理",
         "foods": [
             {
                 "name": "垃圾袋",
@@ -357,7 +416,7 @@ export default[
         ]
     },
     {
-        "name": "个人护理",
+        "name": "美容护肤",
         "foods": [
             {
                 "name": "爸爸装",
@@ -429,6 +488,77 @@ export default[
     },
     {
         "name": "家电数码",
+        "foods": [
+            {
+                "name": "单鞋",
+                "key": "单鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/1.jpg",
+                "cat": 5
+            },
+            {
+                "name": "皮鞋",
+                "key": "皮鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/2.jpg",
+                "cat": 5
+            },
+            {
+                "name": "帆布鞋",
+                "key": "帆布鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/3.jpg",
+                "cat": 5
+            },
+            {
+                "name": "北京老布鞋",
+                "key": "北京老布鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/4.jpg",
+                "cat": 5
+            },
+            {
+                "name": "运动鞋",
+                "key": "运动鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/5.jpg",
+                "cat": 5
+            },
+            {
+                "name": "拖鞋",
+                "key": "拖鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/6.jpg",
+                "cat": 5
+            },
+            {
+                "name": "凉鞋",
+                "key": "凉鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/7.jpg",
+                "cat": 5
+            },
+            {
+                "name": "休闲鞋",
+                "key": "休闲鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/8.jpg",
+                "cat": 5
+            },
+            {
+                "name": "高跟鞋",
+                "key": "高跟鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/9.jpg",
+                "cat": 5
+            },
+            {
+                "name": "老人鞋",
+                "key": "老人鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/10.jpg",
+                "cat": 5
+            },
+            {
+                "name": "懒人鞋",
+                "key": "懒人鞋",
+                "icon": "http://img.kiwifruits.cn/classify/6/11.jpg",
+                "cat": 5
+            }
+        ]
+    },
+    {
+        "name": "家居厨具",
         "foods": [
             {
                 "name": "数据线",
@@ -517,7 +647,7 @@ export default[
         ]
     },
     {
-        "name": "家居厨具",
+        "name": "生鲜水果",
         "foods": [
             {
                 "name": "婴童服饰",
@@ -606,7 +736,7 @@ export default[
         ]
     },
     {
-        "name": "生鲜水果",
+        "name": "方便速食",
         "foods": [
             {
                 "name": "单肩包",
@@ -677,7 +807,7 @@ export default[
         ]
     },
     {
-        "name": "方便速食",
+        "name": "医疗保健",
         "foods": [
             {
                 "name": "袜子",
@@ -748,7 +878,7 @@ export default[
         ]
     },
     {
-        "name": "医药保健",
+        "name": "母婴玩具",
         "foods": [
             {
                 "name": "车市车品",
@@ -807,7 +937,7 @@ export default[
         ]
     },
     {
-        "name": "母婴玩具",
+        "name": "纸品家清",
         "foods": [
             {
                 "name": "太阳镜",
@@ -878,7 +1008,7 @@ export default[
         ]
     },
     {
-        "name": "纸品家具",
+        "name": "日用百货",
         "foods": [
             {
                 "name": "家居饰品",
@@ -950,65 +1080,6 @@ export default[
                 "name": "空调被",
                 "key": "空调被",
                 "icon": "http://img.kiwifruits.cn/classify/13/12.jpg",
-                "cat": 0
-            }
-        ]
-    },
-    {
-        "name": "日用百货",
-        "foods": [
-            {
-                "name": "游泳装备",
-                "key": "游泳",
-                "icon": "http://img.kiwifruits.cn/classify/14/1.jpg",
-                "cat": 0
-            },
-            {
-                "name": "泳镜",
-                "key": "泳镜",
-                "icon": "http://img.kiwifruits.cn/classify/14/2.jpg",
-                "cat": 0
-            },
-            {
-                "name": "户外装备",
-                "key": "户外",
-                "icon": "http://img.kiwifruits.cn/classify/14/3.jpg",
-                "cat": 0
-            },
-            {
-                "name": "健身服饰",
-                "key": "健身",
-                "icon": "http://img.kiwifruits.cn/classify/14/4.jpg",
-                "cat": 0
-            },
-            {
-                "name": "泳衣",
-                "key": "泳衣",
-                "icon": "http://img.kiwifruits.cn/classify/14/5.jpg",
-                "cat": 0
-            },
-            {
-                "name": "瑜伽垫",
-                "key": "瑜伽垫",
-                "icon": "http://img.kiwifruits.cn/classify/14/6.jpg",
-                "cat": 0
-            },
-            {
-                "name": "瑜伽用品",
-                "key": "瑜伽",
-                "icon": "http://img.kiwifruits.cn/classify/14/7.jpg",
-                "cat": 0
-            },
-            {
-                "name": "健身装备",
-                "key": "健身",
-                "icon": "http://img.kiwifruits.cn/classify/14/8.jpg",
-                "cat": 0
-            },
-            {
-                "name": "球迷用品",
-                "key": "球迷",
-                "icon": "http://img.kiwifruits.cn/classify/14/9.jpg",
                 "cat": 0
             }
         ]

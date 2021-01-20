@@ -66,15 +66,6 @@
 				key: 'history',
 				success(res){
 					that.history = res.data
-					// if(that.history.length==0){
-					// 	that.setData({
-					// 		status:false
-					// 	});
-					// }else{
-					// 	that.setData({
-					// 		status:true
-					// 	})
-					// }
 				},
 				fail: function(res) {
 					console.log(res+'aaaaa')
@@ -90,10 +81,7 @@
 					})
 				}
 			}else{
-
-				// console.log(this.openid)
-				// console.log(this.token)
-				this.apply(this.openid, this.token);
+				that.apply();
 			}
 		},
 		data() {
@@ -133,14 +121,14 @@
 			apply(){
 				uni.request({
 					url: 'http://tuh.dingf916.cn/member_info',
-					data: {},
+					data: {
+						token : this.token,
+						openid: this.openid
+					},
 					header: {
-						'Authorization' : 'Bearer ' + this.token,
 						'Content-Type' : 'application/x-www-form-urlencoded',
-						'openid': this.openid
 					},
 					method: 'POST',
-					dataType: 'json',
 					success: (res) => {
 						// if (res.data.code != 200) {
 						// 	uni.showToast({

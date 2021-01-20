@@ -291,7 +291,6 @@
 				const preDate = this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate
 				this.setDate(preDate)
 				this.monthSwitch()
-
 			},
 			/**
 			 * 下个月
@@ -321,7 +320,6 @@
 		/* #endif */
 		flex-direction: column;
 	}
-
 	.uni-calendar__mask {
 		position: fixed;
 		bottom: 0;
@@ -336,11 +334,9 @@
 		z-index: 99;
 		/* #endif */
 	}
-
 	.uni-calendar--mask-show {
 		opacity: 1
 	}
-
 	.uni-calendar--fixed {
 		position: fixed;
 		bottom: 0;
@@ -353,15 +349,12 @@
 		z-index: 99;
 		/* #endif */
 	}
-
 	.uni-calendar--ani-show {
 		transform: translateY(0);
 	}
-
 	.uni-calendar__content {
 		background-color: #fff;
 	}
-
 	.uni-calendar__header {
 		position: relative;
 		/* #ifndef APP-NVUE */
@@ -375,7 +368,6 @@
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
 	}
-
 	.uni-calendar--fixed-top {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -386,12 +378,10 @@
 		border-top-style: solid;
 		border-top-width: 1px;
 	}
-
 	.uni-calendar--fixed-width {
 		width: 50px;
 		// padding: 0 15px;
 	}
-
 	.uni-calendar__backtoday {
 		position: absolute;
 		right: 0;
@@ -406,14 +396,12 @@
 		color: $uni-text-color;
 		background-color: $uni-bg-color-hover;
 	}
-
 	.uni-calendar__header-text {
 		text-align: center;
 		width: 100px;
 		font-size: $uni-font-size-base;
 		color: $uni-text-color;
 	}
-
 	.uni-calendar__header-btn-box {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -424,7 +412,6 @@
 		width: 50px;
 		height: 50px;
 	}
-
 	.uni-calendar__header-btn {
 		width: 10px;
 		height: 10px;
@@ -435,16 +422,12 @@
 		border-top-style: solid;
 		border-top-width: 2px;
 	}
-
 	.uni-calendar--left {
 		transform: rotate(-45deg);
 	}
-
 	.uni-calendar--right {
 		transform: rotate(135deg);
 	}
-
-
 	.uni-calendar__weeks {
 		position: relative;
 		/* #ifndef APP-NVUE */
@@ -452,11 +435,9 @@
 		/* #endif */
 		flex-direction: row;
 	}
-
 	.uni-calendar__weeks-item {
 		flex: 1;
 	}
-
 	.uni-calendar__weeks-day {
 		flex: 1;
 		/* #ifndef APP-NVUE */
@@ -470,15 +451,12 @@
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
 	}
-
 	.uni-calendar__weeks-day-text {
 		font-size: 14px;
 	}
-
 	.uni-calendar__box {
 		position: relative;
 	}
-
 	.uni-calendar__box-bg {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -491,7 +469,6 @@
 		right: 0;
 		bottom: 0;
 	}
-
 	.uni-calendar__box-bg-text {
 		font-size: 200px;
 		font-weight: bold;

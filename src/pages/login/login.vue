@@ -79,7 +79,7 @@
 					success: (res) => {
 						if (res.data.code != 200) {
 							uni.showToast({
-								title: res.data.data.msg,
+								title: res.data.msg,
 								icon: 'none'
 							});
 						} else {
@@ -96,12 +96,6 @@
 						}
 					}
 				});
-			},
-			skip(){
-				Vue.prototype.$token = this.token
-				Vue.prototype.$openid = this.openid
-				console.log(Vue.prototype.$token)
-				console.log(Vue.prototype.$openid)
 			}
 		}
 	}
