@@ -197,14 +197,8 @@
 			"style": {
 				"navigationBarTitleText": "我的余额",
 				"app-plus": {
-					"bounce": "none", //关闭窗口回弹效果
+					"bounce": "none",
 					"titleNView": {
-						// "buttons": [ //原生标题栏按钮配置,
-						// {
-						// 	"type":"none",
-						// 	"titletext":"明细",
-						// 	"float":"right"
-						// }]
 					}
 				}
 			}

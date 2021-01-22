@@ -1,26 +1,26 @@
 <template>
-	<view>
-		<view>
-			<view>
-				<view>涛哥</view>
-				<view>18612399014</view>
+	<view id="address">
+		<view id="box" v-for="(index, key) in info" :key = key>
+			<view id="user">
+				<view id="username">{{index.realname}}</view>
+				<view id="phone">{{index.mobile}}</view>
 			</view>
-			<view>
-				<view>河南省郑州市管城回族区</view>
+			<view id="site">
+				<view id="district">{{index.province}}{{index.city}}{{index.area}}</view>
 				<view></view>
-				<view>绿地中心南塔2116</view>
+				<view id="detail">{{index.address}}</view>
 			</view>
-			<view>
-				<view></view>
-				<view>
-					<view>
+			<view id="set">
+				<view id="isdefault"></view>
+				<view id="">
+					<navigator url="edit/edit">
 						<image src="../../../static/my/address/compile.png" mode=""></image>
 						<view>编辑</view>
-					</view>
-					<view>
-						<image src="../../../static/my/address/delete.png" mode=""></image>
-						<view>删除</view>
-					</view>
+					</navigator>
+<!--					<view>-->
+<!--						<image src="../../../static/my/address/delete.png" mode=""></image>-->
+<!--						<view>删除</view>-->
+<!--					</view>-->
 				</view>
 			</view>
 		</view>
@@ -31,9 +31,53 @@
 </template>
 
 <script>
-	// import tuiDatetime from "@/components/thorui/tui-datetime/tui-datetime"
 	import address from '../../../static/json/address.json';
 	export default {
+		onShow() {
+			const that = this
+			// 将省市区的数据转换为picker可用的多维数组
+			that.getAddressData()
+			uni.getStorage({
+				key: 'history',
+				success(res){
+					that.history = res.data
+				},
+				fail: function(res) {
+					// console.log(res+'aaaaa')
+				}
+			});
+			this.token = this.history.token
+			this.openid = this.history.openid
+			uni.request({
+				url: '/api/member_address_list',
+				data: {
+					token : this.token,
+					openid: this.openid
+				},
+				header: {
+					'Content-Type' : 'application/x-www-form-urlencoded',
+					'token': this.token,
+					'openid': this.openid
+				},
+				method: 'POST',
+				success: (res) => {
+					if (res.data.code == 404) {
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none'
+						});
+					} else if(res.data.code != 200){
+						uni.showToast({
+							title: res.data.msg
+						});
+					} else {
+						that.info = res.data.data
+						console.log(that.info)
+					}
+					console.log(res)
+				}
+			})
+		},
 		data() {
 			return {
 				// 演示地址，请勿直接使用
@@ -54,17 +98,12 @@
 				imgToken: '',	// 本地图片上传到七牛云会返回一个图片路径，需要传图片 token
 				avar: '',	// 修改后的图片路径
 				avarShow: false,	// true 时显示修改后的图片
-				userId: ''	// 用户 id，看接口需求
+				userId: '',	// 用户 id，看接口需求
+				info: [],
+				token: '',
+				openid: ''
 			}
 		},
-		onLoad() {
-		    const that = this
-		    // 将省市区的数据转换为picker可用的多维数组
-		    that.getAddressData()
-		},
-		// components:{
-		// 		tuiDatetime
-		// 	}
 		methods: {
 			// 获取地址信息
 			selCity(e) {

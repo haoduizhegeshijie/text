@@ -88,7 +88,9 @@
 								'history',
 								{
 									token: info.token,
-									openid: info.openid
+									openid: info.openid,
+									system_token: info.system_token
+
 								}
 							)
 							//成功后的逻辑

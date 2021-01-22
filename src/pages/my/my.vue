@@ -14,41 +14,43 @@
 						</view>
 						<view id='integral'>
 							<image id='integral_img' src="../../static/my/rectangle.png" mode=""></image>
-							<view id='integral_name'>LV.{{level}}</view>
+<!--							{{info.level}}-->
+							<view id='integral_name'>LV.1</view>
 							<image id='integral_img' src="../../static/my/fans.png" mode=""></image>
 						</view>
 					</view>
 				</view>
-				<view id="tab">
-					<navigator url="set/set">
-						<image src="../../static/my/set.png"></image>
-					</navigator>
+<!--				<view id="tab">-->
+<!--					<navigator url="set/set">-->
+<!--						<image src="../../static/my/set.png"></image>-->
+<!--					</navigator>-->
+<!--				</view>-->
+			</view>
+		</view>
+		<view id='header_money'>
+			<navigator id='money' url='balance/balance'>
+				<view id='header_money_box'>
+					<view id='money_num'>￥{{info.credit2}}</view>
+					<view id='money_name'>余额</view>
 				</view>
-			</view>
-			<view id='header_money'>
-				<navigator id='money' url='balance/balance'>
-					<view id='header_money_box'>
-						<view id='money_num'>￥{{credit2}}</view>
-						<view id='money_name'>余额</view>
-					</view>
-				</navigator>
-				<navigator id='money' url='frozen/frozen'>
-					<view id='header_money_box'>
-						<view id='money_num'>￥{{dongjie}}</view>
-						<view id='money_name'>冻结</view>
-					</view>
-				</navigator>
-				<navigator id='money' url='venosa/venosa'>
-					<view id='header_money_box'>
-						<view id='money_num'>{{credit1}}</view>
-						<view id='money_name'>金豆余额</view>
-					</view>
-				</navigator>
-			</view>
+			</navigator>
+			<!--				url='frozen/frozen' {{info.dongjie}}-->
+			<navigator id='money' >
+				<view id='header_money_box'>
+					<view id='money_num'>￥0</view>
+					<view id='money_name'>冻结</view>
+				</view>
+			</navigator>
+			<navigator id='money' url='venosa/venosa'>
+				<view id='header_money_box'>
+					<view id='money_num'>{{info.credit1}}</view>
+					<view id='money_name'>金豆余额</view>
+				</view>
+			</navigator>
 		</view>
 		<view id='content'>
 			<view class="list" v-for="(list,list_i) in severList" :key="list_i">
-				<view class="li" v-for="(li,li_i) in list" @tap="toPage(list_i,li_i)" v-bind:class="{'noborder':li_i==list.length-1}"  hover-class="hover" :key="li.name" >
+				<view class="li" v-for="(li,li_i) in list" @tap="toPage(list_i,li_i)" v-bind:class="{'noborder':li_i==list.length-1}"  hover-class="hover" :key="li.name">
 					<view class="icon"><image :src="'../../static/my/'+li.icon"></image></view>
 					<view class="text">{{li.name}}</view>
 					<image class="to" src="../../static/HM-PersonalCenter/to.png"></image>
@@ -68,12 +70,12 @@
 					that.history = res.data
 				},
 				fail: function(res) {
-					console.log(res+'aaaaa')
+					// console.log(res+'aaaaa')
 				}
 			});
 			this.token = this.history.token
 			this.openid = this.history.openid
-			console.log(this.token, this.openid)
+			// console.log(this.token, this.openid)
 			if(this.openid == ''){
 				if(this.token == ''){
 					uni.navigateTo({
@@ -81,7 +83,37 @@
 					})
 				}
 			}else{
-				that.apply();
+				uni.request({
+					url: '/api/member_info',
+					data: {
+						token : this.token,
+						openid: this.openid
+					},
+					header: {
+						'Content-Type' : 'application/x-www-form-urlencoded',
+						'token': this.token,
+						'openid': this.openid
+					},
+					method: 'POST',
+					success: (res) => {
+						if (res.data.code == 404) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							});
+						} else if(res.data.code != 200){
+							uni.showToast({
+								title: res.data.msg
+							});
+							// setTimeout(function() {
+							// 	uni.navigateBack();
+							// }, 1500)
+						} else {
+							that.info = res.data.data
+						}
+						console.log(res)
+					}
+				})
 			}
 		},
 		data() {
@@ -94,6 +126,7 @@
 				dongjie: '', //冻结
 				credit2: '', //余额
 				token: '',
+				info: {},
 				severList:[
 					[
 						{name:'全部订单',icon:'all.png', url:'/pages/my/transport/transport'},
@@ -105,7 +138,8 @@
 						{name:'商家管理',icon:'administration.png',url:'/pages/my/administration/administration'},
 						{name:'我的邀请',icon:'invite.png',url:'/pages/my/invite/invite'},
 						{name:'收货地址',icon:'address.png',url:'/pages/my/address/address'},
-						{name:'我的收藏',icon:'collect.png',url:'/pages/my/collect/collect'}
+						{name:'我的收藏',icon:'collect.png',url:'/pages/my/collect/collect'},
+						{name:'设置',icon:'set.png',url:'/pages/my/set/set'}
 					]
 				],
 			}
@@ -117,35 +151,6 @@
 				uni.navigateTo({
 				    url: this.severList[list_i][li_i].url
 				});
-			},
-			apply(){
-				uni.request({
-					url: 'http://tuh.dingf916.cn/member_info',
-					data: {
-						token : this.token,
-						openid: this.openid
-					},
-					header: {
-						'Content-Type' : 'application/x-www-form-urlencoded',
-					},
-					method: 'POST',
-					success: (res) => {
-						// if (res.data.code != 200) {
-						// 	uni.showToast({
-						// 		title: res.data.msg,
-						// 		icon: 'none'
-						// 	});
-						// } else {
-						// 	uni.showToast({
-						// 		title: res.data.msg
-						// 	});
-						// 	setTimeout(function() {
-						// 		uni.navigateBack();
-						// 	}, 1500)
-						// }
-						console.log(res)
-					}
-				})
 			}
 		}
 	}
@@ -167,10 +172,10 @@
 		justify-content: space-between;
 		width: 710rpx;
 		margin-left: 20rpx;
-		background-color: white;
+		/*background-color: white;*/
 		position: absolute;
 		top: 30rpx;
-		box-shadow: 0 10px 5px #888888;
+		/*box-shadow: 0 10px 5px #888888;*/
 		border-radius: 20rpx;
 
 		#header_me{
@@ -227,7 +232,7 @@
 						#integral_name{
 							position: absolute;
 							top: 5rpx;
-							left: 10rpx;
+							left: 20rpx;
 							font-size: 26rpx;
 							line-height: 24rpx;
 						}
@@ -242,53 +247,59 @@
 				}
 			}
 		}
+	}
 
-		#header_money{
-			flex: 1;
-			display: flex;
-			justify-content: space-around;
-
-
-			#money{
+	#header_money{
+		flex: 1;
+		display: flex;
+		justify-content: space-around;
 
 
-				#header_money_box{
-					width: 240rpx;
-					height: 100rpx;
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-					border-right: 1px solid black;
+		#money{
+			width: 750rpx;
+			/*border-left: 1px solid #999;*/
+			border-right: 1px solid #999;
+			/*border-bottom: 1px solid #999;*/
 
+			:nth-last-child(3){
+				border: none;
+			}
 
-					#money_num{
-						height: 41rpx;
-						font-size: 40rpx;
-						font-weight: bold;
-						color: #FF4066;
-						line-height: 51rpx;
-					}
+			#header_money_box{
+				/*width: 240rpx;*/
+				height: 100rpx;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				/*border-right: 1px solid black;*/
 
-					#money_name{
-						margin-top: 10rpx;
-						height: 33rpx;
-						font-size: 33rpx;
-						font-weight: normal;
-						color: #999999;
-						line-height: 35rpx;
-					}
+				#money_num{
+					height: 41rpx;
+					font-size: 40rpx;
+					font-weight: bold;
+					color: #FF4066;
+					line-height: 51rpx;
 				}
 
-				#header_money_box:last-child{
-					border: 0;
+				#money_name{
+					margin-top: 10rpx;
+					height: 33rpx;
+					font-size: 33rpx;
+					font-weight: normal;
+					color: #999999;
+					line-height: 35rpx;
 				}
+			}
+
+			#header_money_box:last-child{
+				border: 0;
 			}
 		}
 	}
 
 	#content{
-		margin-top: 100rpx;
+		margin-top: 10rpx;
 		background-color: #fff;
 
 		.list{

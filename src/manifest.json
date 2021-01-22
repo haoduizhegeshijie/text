@@ -107,7 +107,7 @@
     },
     "h5": {
         "devServer": {
-            "https": false,
+            "open": false,
             "proxy": {
                 "/api": {
                     "target": "http://tuh.dingf916.cn",

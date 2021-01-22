@@ -9,90 +9,90 @@
 			<view :class="['inv-h',type==3?'inv-h-se':'']" @click="delivery">待收货</view>
 		</view>
 
-		<view class="details" v-show="type == 0">
+		<view class="details" v-show="type == 0" v-for="(index, key) in obj" :key = key>
 			<view id="box">
 				<view id="orderNumber">
 					<view id="orderNumber_name">订单号：</view>
-					<view id="orderNumber_num">SH20200429151334849463</view>
+					<view id="orderNumber_num">{{index.ordersn}}</view>
 				</view>
 				<view id="subject">
 					<view id="index">
 						<view id="productName">
-							<view id="productName_num">casd</view>
+							<view id="productName_num">{{index.optionname}}</view>
 							<view id="particulars">
-								<view id="originalCost_val">398.00</view>
-								<view id="commodity_val">*1</view>
+								<view id="originalCost_val">{{index.goodsprice}}</view>
+								<view id="commodity_val">数量*{{index.total}}</view>
 							</view>
 						</view>
 						<view id="currentPrice">
 							<view id="currentPrice_name">实际支付金额：</view>
-							<view id="currentPrice_val">398.00</view>
+							<view id="currentPrice_val">{{index.price}}</view>
 						</view>
 						<view id="purchaser">
-							<view id="purchaser_val">陈秋霞:13939393939</view>
+							<view id="purchaser_val">{{index.realname}}</view>
 							<view id="time">
 								<view id="time_name">下单时间：</view>
-								<view id="time_val">1588144414</view>
+								<view id="time_val">{{index.createtime}}</view>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="details" v-show="type == 2">
+		<view class="details" v-show="type == 2" v-for="(index, key) in obj" :key = key>
 			<view id="box">
 				<view id="orderNumber">
 					<view id="orderNumber_name">订单号：</view>
-					<view id="orderNumber_num">SH20200429151334849463</view>
+					<view id="orderNumber_num">{{index.ordersn}}</view>
 				</view>
 				<view id="subject">
 					<view id="index">
 						<view id="productName">
-							<view id="productName_num">casd</view>
+							<view id="productName_num">{{index.optionname}}</view>
 							<view id="particulars">
-								<view id="originalCost_val">398.00</view>
-								<view id="commodity_val">*1</view>
+								<view id="originalCost_val">{{index.goodsprice}}</view>
+								<view id="commodity_val">数量*{{index.total}}</view>
 							</view>
 						</view>
 						<view id="currentPrice">
 							<view id="currentPrice_name">实际支付金额：</view>
-							<view id="currentPrice_val">398.00</view>
+							<view id="currentPrice_val">{{index.price}}</view>
 						</view>
 						<view id="purchaser">
-							<view id="purchaser_val">陈秋霞:13939393939</view>
+							<view id="purchaser_val">{{index.realname}}</view>
 							<view id="time">
 								<view id="time_name">下单时间：</view>
-								<view id="time_val">1588144414</view>
+								<view id="time_val">{{index.createtime}}</view>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="details" v-show="type == 3">
+		<view class="details" v-show="type == 3" v-for="(index, key) in obj" :key = key>
 			<view id="box">
 				<view id="orderNumber">
 					<view id="orderNumber_name">订单号：</view>
-					<view id="orderNumber_num">SH20200429151334849463</view>
+					<view id="orderNumber_num">{{index.ordersn}}</view>
 				</view>
 				<view id="subject">
 					<view id="index">
 						<view id="productName">
-							<view id="productName_num">casd</view>
+							<view id="productName_num">{{index.optionname}}</view>
 							<view id="particulars">
-								<view id="originalCost_val">398.00</view>
-								<view id="commodity_val">*1</view>
+								<view id="originalCost_val">{{index.goodsprice}}</view>
+								<view id="commodity_val">数量*{{index.total}}</view>
 							</view>
 						</view>
 						<view id="currentPrice">
 							<view id="currentPrice_name">实际支付金额：</view>
-							<view id="currentPrice_val">398.00</view>
+							<view id="currentPrice_val">{{index.price}}</view>
 						</view>
 						<view id="purchaser">
-							<view id="purchaser_val">陈秋霞:13939393939</view>
+							<view id="purchaser_val">{{index.realname}}</view>
 							<view id="time">
 								<view id="time_name">下单时间：</view>
-								<view id="time_val">1588144414</view>
+								<view id="time_val">{{index.createtime}}</view>
 							</view>
 						</view>
 					</view>
@@ -122,7 +122,7 @@
 		data() {
 			return {
 				type: 0,
-				obj: {},
+				obj: [],
 				ordersn: '',
 				windowHeight: 0
 			}
@@ -146,7 +146,7 @@
 			},
 			apply(){
 				uni.request({
-					url: 'http://tuh.dingf916.cn/member_order_list',
+					url: '/api/member_order_list',
 					data: {
 						'token': this.token,
 						'openid': this.openid,
@@ -156,6 +156,8 @@
 					},
 					header: {
 						'content-type': 'application/x-www-form-urlencoded',
+						'token': this.token,
+						'openid': this.openid,
 					},
 					method: 'POST',
 					dataType: 'json',
@@ -166,7 +168,7 @@
 								icon: 'none'
 							});
 						} else {
-							this.obj = res.data.data
+							this.obj = res.data.data.data
 							console.log(this.obj)
 						}
 					}

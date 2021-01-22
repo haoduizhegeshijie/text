@@ -4,7 +4,7 @@
 			<view id='user_balance'>我的余额</view>
 			<view id='user_box'>
 				<view id='user_icon'>￥</view>
-				<view id='user_num'>2140.70</view>
+				<view id='user_num'>{{info.credit2}}</view>
 			</view>
 		</view>
 		<br />
@@ -25,32 +25,122 @@
 		<view id='deposit'>
 			<view id='deposit_title'>提现方式</view>
 			<br />
-			<view id='deposit_box'>
-				<view id='deposit_box_left'>
-					<image id="deposit_box_left_image" src="../../../../static/my/balance/deposit/Alipay.png"></image>
-					<view id='deposit_box_left_text'>支付宝</view>
-				</view>
-				<image id='deposit_box_image' src="../../../../static/my/balance/deposit/circle.png" mode=""></image>
-			</view>
-			<hr />
-			<view id='deposit_box'>
-				<view id='deposit_box_left'>
-					<image id="deposit_box_left_image" src="../../../../static/my/balance/deposit/bankCard.png"></image>
-					<view id='deposit_box_left_text'>银行卡</view>
-				</view>
-				<image id='deposit_box_image' src='../../../../static/my/balance/deposit/circle_active.png'></image>
-			</view>
+			<u-collapse id='deposit_box'>
+				<u-collapse-item :title="item.head" v-for="(item, index) in itemList" :key="index">
+					<view v-if="item.alipay">
+						<view>
+							<view>支付宝账户：</view>
+							<view>{{item.alipay}}</view>
+						</view>
+						<view>
+							<view>收款人：</view>
+							<view>{{item.realname}}</view>
+						</view>
+					</view>
+					<view v-else-if="item.bankname">
+						<view>
+							<view>银行名称：</view>
+							<view>{{item.bankname}}</view>
+						</view>
+						<view>
+							<view>收款人：</view>
+							<view>{{item.realname}}</view>
+						</view>
+						<view>
+							<view>银行卡号：</view>
+							<view>{{item.bankcard}}</view>
+						</view>
+					</view>
+				</u-collapse-item>
+			</u-collapse>
+<!--			<view id='deposit_box'>-->
+<!--				<view id='deposit_box_left'>-->
+<!--					<image id="deposit_box_left_image" src="../../../../static/my/balance/deposit/Alipay.png"></image>-->
+<!--					<view id='deposit_box_left_text'>支付宝</view>-->
+<!--				</view>-->
+<!--				<image id='deposit_box_image' src="../../../../static/my/balance/deposit/circle.png" mode=""></image>-->
+<!--			</view>-->
+<!--			<hr />-->
+<!--			<view id='deposit_box'>-->
+<!--				<view id='deposit_box_left'>-->
+<!--					<image id="deposit_box_left_image" src="../../../../static/my/balance/deposit/bankCard.png"></image>-->
+<!--					<view id='deposit_box_left_text'>银行卡</view>-->
+<!--				</view>-->
+<!--				<image id='deposit_box_image' src='../../../../static/my/balance/deposit/circle_active.png'></image>-->
+<!--			</view>-->
 		</view>
 		<br />
-		<button style="background-color: #fb622a;">提现</button>
+		<button style="background-color: #fb622a;" @click="submit()">提现</button>
 	</view>
 </template>
 
 <script>
 	export default {
-		data () {
+		onShow() {
+			var that = this;
+			uni.getStorage({
+				key: 'history',
+				success(res){
+					that.history = res.data
+				},
+				fail: function(res) {
+					// console.log(res+'aaaaa')
+				}
+			});
+			this.token = this.history.token
+			this.openid = this.history.openid
+			uni.request({
+				url: '/api/member_price_withdraw_home',
+				data: {
+					token : this.token,
+					openid: this.openid
+				},
+				header: {
+					'Content-Type' : 'application/x-www-form-urlencoded',
+					'token': this.token,
+					'openid': this.openid
+				},
+				method: 'POST',
+				success: (res) => {
+					if (res.data.code == 404) {
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none'
+						});
+					} else if(res.data.code != 200){
+						uni.showToast({
+							title: res.data.msg
+						});
+						// setTimeout(function() {
+							// 	uni.navigateBack();
+						// }, 1500)
+					} else {
+						that.info = res.data.data
+					}
+					// console.log(res)
+				}
+			})
+		},
+		data() {
 			return {
-				windowHeight: 0
+				windowHeight: 0,
+				alipay: '',
+				realname: '',
+				bankname: '',
+				bankcard: '',
+				token: '',
+				openid: '',
+				info: {},
+					itemList: [{
+					head: "支付宝",
+					alipay: 'this.info.alipay.alipay',
+					realname: 'this.info.alipay.realname'
+				},{
+					head: "银行卡",
+					bankname: "this.info.bank.bankname",
+					realname: 'this.info.bank.realname',
+					bankcard: 'this.info.bank.bankcard'
+				}]
 			}
 		},
 		mounted () {
@@ -64,6 +154,41 @@
 		methods: {
 			goback() {
 				uni.navigateBack()
+			},
+			submit(){
+				uni.request({
+					url: '/api/member_price_withdraw',
+					data: {
+						type: 1,
+						type_withdraw: '2',
+						alipay:'2',
+						bankname: ''
+					},
+					header: {
+						'Content-Type' : 'application/x-www-form-urlencoded',
+						'token': this.token,
+						'openid': this.openid
+					},
+					method: 'POST',
+					success: (res) => {
+						if (res.data.code == 404) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							});
+						} else if(res.data.code != 200){
+							uni.showToast({
+								title: res.data.msg
+							});
+							// setTimeout(function() {
+							// 	uni.navigateBack();
+							// }, 1500)
+						} else {
+							that.info = res.data.data
+						}
+						// console.log(res)
+					}
+				})
 			}
 		}
 	}
@@ -176,19 +301,17 @@
 	}
 	#deposit_title{
 		width: 171rpx;
-		height: 41rpx;
 		font-size: 41rpx;
 		font-weight: 400;
 		color: #333333;
 		line-height: 41rpx;
 		padding-top: 45rpx;
-		margin-bottom: 28rpx;
 		margin-left: 49rpx;
 	}
 	#deposit_box{
-		display: flex;
-		justify-content: space-between;
-		margin: 37rpx 33rpx 34rpx 49rpx;
+		/*display: flex;*/
+		/*justify-content: space-between;*/
+		margin: 0 33rpx 34rpx 49rpx;
 	}
 	#deposit_box_left{
 		width: 220rpx;
