@@ -202,7 +202,7 @@
 		margin-left: 30rpx;
 		width: 690rpx;
 		height: 350rpx;
-		background-image: url(../../../../static/my/balance/deposit/rectangle.png);
+		background-image: url(../../../../static/image/my/balance/deposit/rectangle.png);
 		background-repeat:no-repeat;
 		background-size:100% 100%;
 		-moz-background-size:100% 100%;

@@ -1,11 +1,11 @@
 <template>
 	<view id='my'>
-		<image id='header_img' src='../../static/my/top.png'></image>
+		<image id='header_img' src='../../static/image/my/top.png'></image>
 		<view id='header'>
 			<view id='header_me'>
 				<view id='header_me_personal'>
 					<navigator id='balance' url='/pages/my/personal/personal'>
-						<image id='personal_img' src='../../static/my/default.png'></image>
+						<image id='personal_img' src='../../static/image/my/default.png'></image>
 					</navigator>
 					<view id='personal'>
 						<view id='personal_box'>
@@ -13,18 +13,13 @@
 							<view id='num'>邀请ID:123456</view>
 						</view>
 						<view id='integral'>
-							<image id='integral_img' src="../../static/my/rectangle.png" mode=""></image>
-<!--							{{info.level}}-->
+							<image id='integral_img' src="../../static/image/my/rectangle.png" mode=""></image>
+<!--							{{info.team_level_id}}-->
 							<view id='integral_name'>LV.1</view>
-							<image id='integral_img' src="../../static/my/fans.png" mode=""></image>
+							<image id='integral_img' src="../../static/image/my/fans.png" mode=""></image>
 						</view>
 					</view>
 				</view>
-<!--				<view id="tab">-->
-<!--					<navigator url="set/set">-->
-<!--						<image src="../../static/my/set.png"></image>-->
-<!--					</navigator>-->
-<!--				</view>-->
 			</view>
 		</view>
 		<view id='header_money'>
@@ -41,7 +36,7 @@
 					<view id='money_name'>冻结</view>
 				</view>
 			</navigator>
-			<navigator id='money' url='venosa/venosa'>
+			<navigator id='money' class="border" url='venosa/venosa'>
 				<view id='header_money_box'>
 					<view id='money_num'>{{info.credit1}}</view>
 					<view id='money_name'>金豆余额</view>
@@ -51,9 +46,9 @@
 		<view id='content'>
 			<view class="list" v-for="(list,list_i) in severList" :key="list_i">
 				<view class="li" v-for="(li,li_i) in list" @tap="toPage(list_i,li_i)" v-bind:class="{'noborder':li_i==list.length-1}"  hover-class="hover" :key="li.name">
-					<view class="icon"><image :src="'../../static/my/'+li.icon"></image></view>
+					<view class="icon"><image :src="'../../static/image/my/'+li.icon"></image></view>
 					<view class="text">{{li.name}}</view>
-					<image class="to" src="../../static/HM-PersonalCenter/to.png"></image>
+					<image class="to" src="../../static/image/HM-PersonalCenter/to.png"></image>
 				</view>
 			</view>
 		</view>
@@ -70,12 +65,11 @@
 					that.history = res.data
 				},
 				fail: function(res) {
-					// console.log(res+'aaaaa')
+					console.log(res+'aaaaa')
 				}
 			});
 			this.token = this.history.token
 			this.openid = this.history.openid
-			// console.log(this.token, this.openid)
 			if(this.openid == ''){
 				if(this.token == ''){
 					uni.navigateTo({
@@ -96,18 +90,14 @@
 					},
 					method: 'POST',
 					success: (res) => {
-						if (res.data.code == 404) {
-							uni.showToast({
-								title: res.data.msg,
-								icon: 'none'
+						if (res.data.data.code == 404) {
+							uni.navigateTo({
+								url:'/pages/login/login'
 							});
 						} else if(res.data.code != 200){
 							uni.showToast({
 								title: res.data.msg
 							});
-							// setTimeout(function() {
-							// 	uni.navigateBack();
-							// }, 1500)
 						} else {
 							that.info = res.data.data
 						}
@@ -138,7 +128,9 @@
 						{name:'商家管理',icon:'administration.png',url:'/pages/my/administration/administration'},
 						{name:'我的邀请',icon:'invite.png',url:'/pages/my/invite/invite'},
 						{name:'收货地址',icon:'address.png',url:'/pages/my/address/address'},
-						{name:'我的收藏',icon:'collect.png',url:'/pages/my/collect/collect'},
+						{name:'我的收藏',icon:'collect.png',url:'/pages/my/collect/collect'}
+					],
+					[
 						{name:'设置',icon:'set.png',url:'/pages/my/set/set'}
 					]
 				],
@@ -159,7 +151,6 @@
 <style lang="scss">
 	#my{
 		position: relative;
-		// background-color: #f5f6fa;
 	}
 	#header_img{
 		width: 750rpx;
@@ -172,10 +163,8 @@
 		justify-content: space-between;
 		width: 710rpx;
 		margin-left: 20rpx;
-		/*background-color: white;*/
 		position: absolute;
 		top: 30rpx;
-		/*box-shadow: 0 10px 5px #888888;*/
 		border-radius: 20rpx;
 
 		#header_me{
@@ -257,22 +246,14 @@
 
 		#money{
 			width: 750rpx;
-			/*border-left: 1px solid #999;*/
 			border-right: 1px solid #999;
-			/*border-bottom: 1px solid #999;*/
-
-			:nth-last-child(3){
-				border: none;
-			}
 
 			#header_money_box{
-				/*width: 240rpx;*/
 				height: 100rpx;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				/*border-right: 1px solid black;*/
 
 				#money_num{
 					height: 41rpx;
@@ -291,11 +272,11 @@
 					line-height: 35rpx;
 				}
 			}
-
-			#header_money_box:last-child{
-				border: 0;
-			}
 		}
+	}
+
+	.border{
+		border-right: none;
 	}
 
 	#content{

@@ -6,7 +6,7 @@
 					收件人
 				</view>
 				<view class="input">
-					<input placeholder="请输入收件人姓名" type="text" v-model="name" />
+					<input placeholder="请输入收件人姓名" type="text" v-model="realname" />
 				</view>
 			</view>
 			<view class="row">
@@ -14,7 +14,7 @@
 					电话号码
 				</view>
 				<view class="input">
-					<input placeholder="请输入收件人电话号码" type="text" v-model="tel" />
+					<input placeholder="请输入收件人电话号码" type="text" v-model="mobile" />
 				</view>
 			</view>
 			<view class="row">
@@ -67,8 +67,8 @@
 			return {
 				editType:'edit',
 				id:'',
-				name:'',
-				tel:'',
+				realname:'',
+				mobile:'',
 				detailed:'',
 				isDefault:false,
 				cityPickerValue: [0, 0, 1],
@@ -133,6 +133,35 @@
 				}
 				uni.showLoading({
 					title:'正在提交'
+				})
+				uni.request({
+					url: '/api/member_address_edit',
+					data: {
+						token : this.token,
+						openid: this.openid
+					},
+					header: {
+						'Content-Type' : 'application/x-www-form-urlencoded',
+						'token': this.token,
+						'openid': this.openid
+					},
+					method: 'POST',
+					success: (res) => {
+						if (res.data.code == 404) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							});
+						} else if(res.data.code != 200){
+							uni.showToast({
+								title: res.data.msg
+							});
+						} else {
+							that.info = res.data.data
+							console.log(that.info)
+						}
+						console.log(res)
+					}
 				})
 				//实际应用中请提交ajax,模板定时器模拟提交效果
 				setTimeout(()=>{

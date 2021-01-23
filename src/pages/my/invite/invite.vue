@@ -11,7 +11,7 @@
 			<view class="" v-show="Inv == 0">
 				<view>
 					<view>
-						<image src="../../../static/my/default.png" mode=""></image>
+						<image src="../../../static/image/my/default.png" mode=""></image>
 					</view>
 					<view>
 						<view>qwer123</view>

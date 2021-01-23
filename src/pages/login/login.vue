@@ -1,16 +1,16 @@
 <template>
 	<view class="content">
 		<view class="header">
-			<image src="../../static/my/default.png"></image>
+			<image src="../../static/image/my/default.png"></image>
 		</view>
 
 		<view class="list">
 			<view class="list-call">
-				<image class="img" src="../../static/login/username.png"></image>
+				<image class="img" src="../../static/image/login/username.png"></image>
 				<input class="sl-input" v-model="submitForm.phone" type="number" @blur="doInput(submitForm.phone)" maxlength="11" placeholder="手机号" />
 			</view>
 			<view class="list-call">
-				<image class="img" src="../../static/login/password.png"></image>
+				<image class="img" src="../../static/image/login/password.png"></image>
 				<input class="sl-input" v-model="pwd" type="text" maxlength="32" placeholder="输入密码" password="true" />
 			</view>
 		</view>

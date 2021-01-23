@@ -18,6 +18,9 @@
 				<view id="subject">
 					<view id="index">
 						<view id="productName">
+							<view>
+								<image id="image" src="../../../static/image/123.jpg"></image>
+							</view>
 							<view id="productName_num">{{index.optionname}}</view>
 							<view id="particulars">
 								<view id="originalCost_val">{{index.goodsprice}}</view>
@@ -48,6 +51,9 @@
 				<view id="subject">
 					<view id="index">
 						<view id="productName">
+							<view>
+								<image id="image" src="../../../static/image/123.jpg"></image>
+							</view>
 							<view id="productName_num">{{index.optionname}}</view>
 							<view id="particulars">
 								<view id="originalCost_val">{{index.goodsprice}}</view>
@@ -78,6 +84,9 @@
 				<view id="subject">
 					<view id="index">
 						<view id="productName">
+							<view>
+								<image id="image" src="../../../static/image/123.jpg"></image>
+							</view>
 							<view id="productName_num">{{index.optionname}}</view>
 							<view id="particulars">
 								<view id="originalCost_val">{{index.goodsprice}}</view>
@@ -139,12 +148,14 @@
 			yiXuan() {
 				/* 滑动门默认值 */
 				this.type = 2;
+				this.apply(this.type)
 			},
 			delivery() {
 				/* 滑动门默认值 */
 				this.type = 3;
+				this.apply(this.type)
 			},
-			apply(){
+			apply(type){
 				uni.request({
 					url: '/api/member_order_list',
 					data: {
@@ -152,7 +163,7 @@
 						'openid': this.openid,
 						'page': '1',
 						'limit': '10',
-						'type': ''
+						'type': type
 					},
 					header: {
 						'content-type': 'application/x-www-form-urlencoded',
@@ -247,6 +258,11 @@
 						height: 200rpx;
 						margin-bottom: 25rpx;
 						display: flex;
+
+						#image{
+							width: 300rpx;
+							height: 300rpx;
+						}
 
 						#productName_num{
 							font-size: 100rpx;

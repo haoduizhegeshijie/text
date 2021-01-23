@@ -1,7 +1,7 @@
 <template>
 	<view id='balance' :style="{ 'height': windowHeight + 'px' }">
 		<view id='always'>
-			<image id='image' src="../../../static/my/balance/money.png" mode=""></image>
+			<image id='image' src="../../../static/image/my/balance/money.png" mode=""></image>
 			<view id='always_text'>总余额</view>
 			<br />
 			<view id='always_num'>￥456789</view>

@@ -4,19 +4,19 @@
             <view class='list'>
                 <navigator class="li" url="/pages/my/personal/personal">
                     <view class="icon">
-                        <image src="../../../static/my/data.png"></image>
+                        <image src="../../../static/image/my/data.png"></image>
                     </view>
                     <view class="text">我的资料</view>
-                    <image class="to" src="../../../static/HM-PersonalCenter/to.png"></image>
+                    <image class="to" src="../../../static/image/HM-PersonalCenter/to.png"></image>
                 </navigator>
             </view>
             <view class='list'>
                 <navigator class="li" url="/pages/my/address/address">
                     <view class="icon">
-                        <image src="../../../static/my/address.png"></image>
+                        <image src="../../../static/image/my/address.png"></image>
                     </view>
                     <view class="text">收货地址</view>
-                    <image class="to" src="../../../static/HM-PersonalCenter/to.png"></image>
+                    <image class="to" src="../../../static/image/HM-PersonalCenter/to.png"></image>
                 </navigator>
             </view>
         </view>

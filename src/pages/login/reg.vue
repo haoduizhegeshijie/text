@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="header">
-			<image src="../../static/my/default.png"></image>
+			<image src="../../static/image/my/default.png"></image>
 		</view>
 
 		<view class="list">
@@ -13,11 +13,11 @@
 			</view>
 			<view class="list-call">
 				<input class="sl-input" v-model="pwd" type="text" maxlength="32" placeholder="登录密码" :password="!showPassword" />
-				<image class="img" src="" :src="showPassword?'../../static/login/op.png':'../../static/login/cl.png'" @tap="display"></image>
+				<image class="img" src="" :src="showPassword?'../../static/image/login/op.png':'../../static/image/login/cl.png'" @tap="display"></image>
 			</view>
 			<view class="list-call">
 				<input class="sl-input" v-model="pwd_new" type="text" maxlength="32" placeholder="确认密码" :password="!showPassword" />
-				<image class="img" src="" :src="showPassword?'../../static/login/op.png':'../../static/login/cl.png'" @tap="display"></image>
+				<image class="img" src="" :src="showPassword?'../../static/image/login/op.png':'../../static/image/login/cl.png'" @tap="display"></image>
 			</view>
 			<view class="list-call">
 				<input class="sl-input" v-model="pid" type="text" maxlength="12" placeholder="邀请ID" disabled/>
@@ -29,7 +29,7 @@
 		</view>
 
 		<view class="agreement">
-			<image @tap="agreementSuccess" :src="agreement==true?'../../static/login/ty1.png':'../../static/login/ty0.png'"></image>
+			<image @tap="agreementSuccess" :src="agreement==true?'../../static/image/login/ty1.png':'../../static/image/login/ty0.png'"></image>
 			<text @tap="agreementSuccess">已阅读并同意</text>
 			<navigator url="agreement?id=1" open-type="navigate">《软件用户协议》</navigator>
 			<text>和</text>

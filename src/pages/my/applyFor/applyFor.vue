@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<image id='image' src="../../../static/my/applyFor/top.png" mode=""></image>
+		<image id='image' src="../../../static/image/my/applyFor/top.png" mode=""></image>
 		<view>
 			<view id="box">
 				<veiw id='box_name'>商户名称</veiw>

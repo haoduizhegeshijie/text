@@ -1,183 +1,126 @@
 <template>
-	<view id="address">
-		<view id="box" v-for="(index, key) in info" :key = key>
-			<view id="user">
-				<view id="username">{{index.realname}}</view>
-				<view id="phone">{{index.mobile}}</view>
-			</view>
-			<view id="site">
-				<view id="district">{{index.province}}{{index.city}}{{index.area}}</view>
-				<view></view>
-				<view id="detail">{{index.address}}</view>
-			</view>
-			<view id="set">
-				<view id="isdefault"></view>
-				<view id="">
-					<navigator url="edit/edit">
-						<image src="../../../static/my/address/compile.png" mode=""></image>
-						<view>编辑</view>
-					</navigator>
-<!--					<view>-->
-<!--						<image src="../../../static/my/address/delete.png" mode=""></image>-->
-<!--						<view>删除</view>-->
-<!--					</view>-->
+	<view>
+		<view class="content">
+			<view class="list">
+				<view class="row" v-for="(row,index) in addressList" :key="index" @tap="select(row)">
+					<view class="left">
+						<view class="head">
+							{{row.head}}
+						</view>
+					</view>
+					<view class="center">
+						<view class="name-tel">
+							<view class="name">{{row.name}}</view>
+							<view class="tel">{{row.tel}}</view>
+							<view class="default" v-if="row.isDefault">
+								默认
+							</view>
+						</view>
+						<view class="address">
+							{{row.address.region.label}} {{row.address.detailed}}
+						</view>
+					</view>
+					<view class="right">
+						<view class="icon bianji" @tap.stop="edit(row)">删除</view>
+					</view>
 				</view>
 			</view>
 		</view>
-		<view>
-			<button type="warn">+ 新增地址</button>
+		<view class="add">
+			<view class="btn" @tap="add">
+				<view class="icon tianjia"></view>新增地址
+			</view>
 		</view>
 	</view>
 </template>
-
 <script>
-	import address from '../../../static/json/address.json';
 	export default {
+		data() {
+			return {
+				isSelect:false,
+				addressList:[
+					{id:1,name:"大黑哥",head:"大",tel:"18816881688",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:true},
+					{id:2,name:"大黑哥",head:"大",tel:"15812341234",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深北小道2222号有名公寓502'},isDefault:false},
+					{id:3,name:"老大哥",head:"老",tel:"18155467897",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
+					{id:4,name:"王小妹",head:"王",tel:"13425654895",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
+				]
+			};
+		},
 		onShow() {
-			const that = this
-			// 将省市区的数据转换为picker可用的多维数组
-			that.getAddressData()
+
 			uni.getStorage({
-				key: 'history',
-				success(res){
-					that.history = res.data
-				},
-				fail: function(res) {
-					// console.log(res+'aaaaa')
-				}
-			});
-			this.token = this.history.token
-			this.openid = this.history.openid
-			uni.request({
-				url: '/api/member_address_list',
-				data: {
-					token : this.token,
-					openid: this.openid
-				},
-				header: {
-					'Content-Type' : 'application/x-www-form-urlencoded',
-					'token': this.token,
-					'openid': this.openid
-				},
-				method: 'POST',
-				success: (res) => {
-					if (res.data.code == 404) {
-						uni.showToast({
-							title: res.data.msg,
-							icon: 'none'
-						});
-					} else if(res.data.code != 200){
-						uni.showToast({
-							title: res.data.msg
-						});
-					} else {
-						that.info = res.data.data
-						console.log(that.info)
+				key:'delAddress',
+				success: (e) => {
+					let len = this.addressList.length;
+					if(e.data.hasOwnProperty('id')){
+						for(let i=0;i<len;i++){
+							if(this.addressList[i].id==e.data.id){
+								this.addressList.splice(i,1);
+								break;
+							}
+						}
 					}
-					console.log(res)
+					uni.removeStorage({
+						key:'delAddress'
+					})
+				}
+			})
+			uni.getStorage({
+				key:'saveAddress',
+				success: (e) => {
+					let len = this.addressList.length;
+					if(e.data.hasOwnProperty('id')){
+						for(let i=0;i<len;i++){
+							if(this.addressList[i].id==e.data.id){
+								this.addressList.splice(i,1,e.data);
+								break;
+							}
+						}
+					}else{
+						let lastid = this.addressList[len-1];
+						lastid++;
+						e.data.id = lastid;
+						this.addressList.push(e.data);
+					}
+					uni.removeStorage({
+						key:'saveAddress'
+					})
 				}
 			})
 		},
-		data() {
-			return {
-				// 演示地址，请勿直接使用
-				action: 'http://www.example.com/upload',
-				fileList: [
-					{
-						url: 'http://pics.sc.chinaz.com/files/pic/pic9/201912/hpic1886.jpg',
-					}
-				],
-				address: [],
-				provinceList: [],
-				cityAllList: [],
-				addressIndex: [0, 0],
-				addressNode: {
-					province: "请选择城市",
-					city: ""
-				},
-				imgToken: '',	// 本地图片上传到七牛云会返回一个图片路径，需要传图片 token
-				avar: '',	// 修改后的图片路径
-				avarShow: false,	// true 时显示修改后的图片
-				userId: '',	// 用户 id，看接口需求
-				info: [],
-				token: '',
-				openid: ''
+		onLoad(e) {
+			if(e.type=='select'){
+				this.isSelect = true;
 			}
 		},
-		methods: {
-			// 获取地址信息
-			selCity(e) {
-				const that = this;
-				let val = e.target.value
-				that.addressNode = {
-					province: that.address[0][val[0]],
-					city: that.address[1][val[1]]
-				}
-			},
-			// 监听省市区滚动
-			selMonitor(e) {
-				const that = this
-				let column = e.detail.column
-				if (column == 0) {
-					let index = e.detail.value
-					that.address[1] = that.cityAllList[index]
-				}
-			},
-			// 将省市区的数据转换为picker可用的多维数组
-			getAddressData() {
-				const that = this;
-				// 所有城市列表,二维数组
-				let cityAllList = [];
-				// 省列表
-				let provinceList = [];
-				// address为省市区的json数据
-				for (let key in address) {
-					let newDataList = [];
-					if (address[key].children) {
-						for (let key2 in address[key].children) {
-							newDataList.push(address[key].children[key2].name);
-						}
+		methods:{
+			edit(row){
+				uni.setStorage({
+					key:'address',
+					data:row,
+					success() {
+						uni.navigateTo({
+							url:"edit/edit?type=edit"
+						})
 					}
-					provinceList.push(address[key].name);
-					cityAllList.push(newDataList);
-				}
-				that.provinceList = provinceList;
-				that.cityAllList = cityAllList;
-				that.address = [provinceList, cityAllList[0]];
+				});
+
 			},
-			// 修改头像
-			updateAvar(way) {
-				const {imgToken,userId} = this
-				uni.chooseImage({
-					count: 1,	// 头像只上传1张
-					sourceType: [way],	// way是点击时传入的打开方式相机或相册
-					success: async (chooseImageRes) => {
-						//获取头像token的接口
-						const data = await this.$api.api.user.getImgToken();
-						const tempFilePaths = chooseImageRes.tempFilePaths;
-						uni.uploadFile({
-							url: 'https://upload-z2.qiniup.com/',	// 上传地址（七牛云）
-							filePath: tempFilePaths[0],
-							name: 'file',
-							formData: {
-								token: data.data.body, //头像token，参考返回数据
-								key: chooseImageRes.tempFiles[0].name // 图片名，移动端可能不存在name，可修改为 key: new Date().getTime()+".png" 随机
-							},
-							success: (uploadFileRes) => {
-								// console.log(uploadFileRes);是一个字符串
-								const data = JSON.parse(uploadFileRes.data)
-								// 上传头像接口（参数根据自己的来）
-								this.$api.api.user.updateHead({
-									"creator": this.$store.state.loginName,	//上传者
-									"headPath": "http://qapxsiqga.bkt.clouddn.com/"+data.key,	// 图片最终的路径，http://qapxsiqga.bkt.clouddn.com/是七牛云空间地址
-									"userId": userId
-								}).then(res=>{
-									console.log(res)
-									this.avar = "http://qapxsiqga.bkt.clouddn.com/"+data.key	// 存入修改后的头像
-									this.avarShow = true	// 显示修改后的头像
-								})
-							}
-						});
+			add(){
+				uni.navigateTo({
+					url:"edit/edit?type=add"
+				})
+			},
+			select(row){
+				//是否需要返回地址(从订单确认页跳过来选收货地址)
+				if(!this.isSelect){
+					return ;
+				}
+				uni.setStorage({
+					key:'selectAddress',
+					data:row,
+					success() {
+						uni.navigateBack();
 					}
 				})
 			}
@@ -185,14 +128,110 @@
 	}
 </script>
 
-<style>
-	#address_box{
+<style lang="scss">
+	view{
 		display: flex;
 	}
-	#box_name{
-		width: 130rpx;
+	.icon {
+		// &.bianji {
+		// 	&:before{content:"\e61b";}
+		// }
+		// &.tianjia {
+		// 	&:before{content:"\e81a";}
+		// }
 	}
-	#box_value{
-		display: inline-block;
+	.add{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		height: 120upx;
+		justify-content: center;
+		align-items: center;
+		.btn{
+			box-shadow: 0upx 5upx 10upx rgba(0,0,0,0.4);
+			width: 70%;
+			height: 80upx;
+			border-radius: 80upx;
+			background-color: #f06c7a;
+			color: #fff;
+			justify-content: center;
+			align-items: center;
+			.icon{
+				height: 80upx;
+				color: #fff;
+				font-size: 30upx;
+				justify-content: center;
+				align-items: center;
+			}
+			font-size: 30upx;
+		}
+	}
+	.list{
+		flex-wrap: wrap;
+		.row{
+			width: 96%;
+			padding: 20upx 2%;
+			.left{
+				width: 90upx;
+				flex-shrink: 0;
+				align-items: center;
+				.head{
+					width: 70upx;
+					height: 70upx;
+					background:linear-gradient(to right,#ccc,#aaa);
+					color: #fff;
+					justify-content: center;
+					align-items: center;
+					border-radius: 60upx;
+					font-size: 35upx;
+				}
+			}
+			.center{
+				width: 100%;
+				flex-wrap: wrap;
+				.name-tel{
+					width: 100%;
+					align-items: baseline;
+					.name{
+						font-size: 34upx;
+					}
+					.tel{
+						margin-left: 30upx;
+						font-size: 24upx;
+						color: #777;
+					}
+					.default{
+
+						font-size: 22upx;
+
+						background-color: #f06c7a;
+						color: #fff;
+						padding: 0 18upx;
+						border-radius: 24upx;
+						margin-left: 20upx;
+					}
+				}
+				.address{
+					width: 100%;
+					font-size: 24upx;
+					align-items: baseline;
+					color: #777;
+				}
+			}
+			.right{
+				flex-shrink: 0;
+				align-items: center;
+				margin-left: 20upx;
+				.icon{
+					justify-content: center;
+					align-items: center;
+					width: 80upx;
+					height: 60upx;
+					border-left: solid 1upx #aaa;
+					font-size: 40upx;
+					color: #777;
+				}
+			}
+		}
 	}
 </style>
