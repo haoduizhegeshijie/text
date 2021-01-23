@@ -2,20 +2,20 @@
 	<view>
 		<view id='top'>
 			<view>
-				<image @click='regMethods' src="../../../static/index/checkIn/signIn.png" mode=""></image>
+				<image @click='regMethods' src="../../../static/image/index/checkIn/signIn.png" mode=""></image>
 			</view>
 			<view>
 				<view>
 					<view>
 						<view>250</view>
-						<image src="../../../static/index/checkIn/venosa.png" mode=""></image>
+						<image src="../../../static/image/index/checkIn/venosa.png" mode=""></image>
 					</view>
 					<button type="default" size='mini'>获得金豆</button>
 				</view>
 				<view>
 					<view>
 						<view>10</view>
-						<image src="../../../static/index/checkIn/checkIn.png" mode=""></image>
+						<image src="../../../static/image/index/checkIn/checkIn.png" mode=""></image>
 					</view>
 					<button type="default" size='mini'>累计签到</button>
 				</view>
@@ -110,6 +110,6 @@
 
 <style>
 	#top{
-		background-image: url(../../../static/index/checkIn/background.png);
+		background-image: url(../../../static/image/index/checkIn/background.png);
 	}
 </style>

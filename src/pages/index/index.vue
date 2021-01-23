@@ -1,16 +1,16 @@
 <template>
 	<view class="content">
-		<image id='topimage' src='../../static/index/topimage.png' ></image>
+		<image id='topimage' src='../../static/image/index/topimage.png' ></image>
 		<view id='top'>
 			<navigator id='service'>
-				<image id='service_img' src='../../static/index/location.png'></image>
+				<image id='service_img' src='../../static/image/index/location.png'></image>
 			</navigator>
 			<navigator id="jump" url="/pages/index/search/search">
 				<input id="input" placeholder="       搜索商品名称"></input>
-				<image id="search" src="../../static/index/search.png"></image>
+				<image id="search" src="../../static/image/index/search.png"></image>
 			</navigator>
 			<navigator id='information'>
-				<image id='information_img' src='../../static/index/information.png'></image>
+				<image id='information_img' src='../../static/image/index/information.png'></image>
 			</navigator>
 		</view>
 <!--		<view id='title'>-->
@@ -33,26 +33,26 @@
 <!--		</view>-->
 		<view>
 			<navigator url="/pages/index/signIn/signIn">
-				<image id='every_img' src='../../static/index/everyday.png'></image>
+				<image id='every_img' src='../../static/image/index/everyday.png'></image>
 			</navigator>
 		</view>
 		<view id='image'>
 			<navigator url="/pages/index/quality/quality">
-				<image id='image_img' src='../../static/index/quality.png'></image>
+				<image id='image_img' src='../../static/image/index/quality.png'></image>
 			</navigator>
 			<navigator url="/pages/index/newlyElected/newlyElected">
-				<image id='image_img' src='../../static/index/newlyElected.png'></image>
+				<image id='image_img' src='../../static/image/index/newlyElected.png'></image>
 			</navigator>
 		</view>
 		<view id='header'>
-			<image id='header_img' src='../../static/index/titleone.png'></image>
+			<image id='header_img' src='../../static/image/index/titleone.png'></image>
 		</view>
 		<van-tabs>
 		    <view id='useless'>
 				<van-tab v-for="(name,index) in titles" :key="index" :title="name">
 					<navigator url='detail/detail'>
 						<view id='product'>
-							<image id='product_img' src='../../static/789.jpg'></image>
+							<image id='product_img' src='../../static/image/789.jpg'></image>
 							<view id='view'></view>
 							<view id='product_box'>
 								<view id='product_box_text'>智能省电王傲哩给小金盒大礼包 购买发10台</view>
@@ -66,13 +66,13 @@
 			</view>
 		</van-tabs>
 		<view id='header'>
-			<image id='header_img' src='../../static/index/titletwo.png'></image>
+			<image id='header_img' src='../../static/image/index/titletwo.png'></image>
 		</view>
 		<van-tabs>
 			<view id='useless'>
 				<van-tab @click="refresh" v-for="(name,index) in titles" :key="index" :title="name">
 					<view id='product'>
-						<image id='product_img' src='../../static/789.jpg'></image>
+						<image id='product_img' src='../../static/image/789.jpg'></image>
 						<view id='view'></view>
 						<view id='product_box'>
 							<view id='product_box_text'>智能省电王傲哩给小金盒大礼包 购买发10台</view>
@@ -95,8 +95,8 @@
 		data() {
 			return {
 				images: [
-				    '../../static/123.jpg',
-				    '../../static/123.jpg',	
+				    '../../static/image/123.jpg',
+				    '../../static/image/123.jpg',
 				],
 				value: '',
 				titles: [ name="综合",name='销量',name='特卖',name='新品',name='更多'],

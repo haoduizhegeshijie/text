@@ -5,7 +5,7 @@
 				<view>头像</view>
 				<view>
 					<image v-if="avarShow" :src="avar" mode=""></image>
-					<image v-else id='image' src="../../../static/123.jpg" mode=""></image>
+					<image v-else id='image' src="../../../static/image/123.jpg" mode=""></image>
 				</view>
 			</view>
 			<!-- <u-upload :action="action" :file-list="fileList" ></u-upload> -->

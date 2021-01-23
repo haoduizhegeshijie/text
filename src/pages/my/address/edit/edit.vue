@@ -280,8 +280,8 @@
 				justify-content: center;
 				align-items: center;
 				font-size: 36upx;
-				color: #f06c7a;
-				background-color: rgba(255,0,0,0.05);
+				color: #fff;
+				background-color: #3f77f6;
 				border-bottom: solid 1upx #eee;
 			}
 		}

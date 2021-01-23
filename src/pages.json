@@ -234,6 +234,9 @@
 			"path": "pages/my/address/edit/edit"
 		},
 		{
+			"path": "pages/my/address/detail/detail"
+		},
+		{
 			"path": "pages/my/award/award"
 		},
 		{
@@ -271,29 +274,29 @@
 		"list": [{
 			"pagePath":"pages/index/index",
 			"text":"首页",
-			"iconPath":"static/tabBar/index.png",
-			"selectedIconPath":"static/tabBar/index_active.png",
+			"iconPath":"static/image/tabBar/index.png",
+			"selectedIconPath":"static/image/tabBar/index_active.png",
 			"iconWidth": "100rpx"
 		},
 		{
 			"pagePath":"pages/all/all",
 			"text":"商品分类",
-			"iconPath":"static/tabBar/all.png",
-			"selectedIconPath":"static/tabBar/all_active.png",
+			"iconPath":"static/image/tabBar/all.png",
+			"selectedIconPath":"static/image/tabBar/all_active.png",
 			"iconWidth": "100rpx"
 		},
 		{
 			"pagePath":"pages/shoppingCat/shoppingCat",
 			"text":"购物车",
-			"iconPath":"static/tabBar/shoppingCat.png",
-			"selectedIconPath":"static/tabBar/shoppingCat_active.png",
+			"iconPath":"static/image/tabBar/shoppingCat.png",
+			"selectedIconPath":"static/image/tabBar/shoppingCat_active.png",
 			"iconWidth": "100rpx"
 		},
 		{
 			"pagePath":"pages/my/my",
 			"text":"我的",
-			"iconPath":"static/tabBar/my.png",
-			"selectedIconPath":"static/tabBar/my_active.png",
+			"iconPath":"static/image/tabBar/my.png",
+			"selectedIconPath":"static/image/tabBar/my_active.png",
 			"iconWidth": "100rpx"
 		}]
 	}

@@ -2,7 +2,7 @@
 	<view id='useless'>
 		<navigator url='../detail/detail'>
 			<view id='product'>
-				<image id='product_img' src='../../../static/789.jpg'></image>
+				<image id='product_img' src='../../../static/image/789.jpg'></image>
 				<view id='view'></view>
 				<view id='product_box'>
 					<view id='product_box_text'>智能省电王傲哩给小金盒大礼包 购买发10台</view>
@@ -14,7 +14,7 @@
 		</navigator>
 		<navigator url='../detail/detail'>
 			<view id='product'>
-				<image id='product_img' src='../../../static/789.jpg'></image>
+				<image id='product_img' src='../../../static/image/789.jpg'></image>
 				<view id='view'></view>
 				<view id='product_box'>
 					<view id='product_box_text'>智能省电王傲哩给小金盒大礼包 购买发10台</view>

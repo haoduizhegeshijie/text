@@ -4,7 +4,7 @@
 		<view id='history'>
 			<view id='history_title'>
 				<view id='history_title_name'>历史搜索</view>
-				<image id='history_title_img' src='../../../static/index/search/delete.png'></image>
+				<image id='history_title_img' src='../../../static/image/index/search/delete.png'></image>
 			</view>
 			<view id='history_content'>
 				<view id='history_content_name'>棉外套女冬  加厚</view>

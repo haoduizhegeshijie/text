@@ -1,7 +1,7 @@
 <template>
 	<view id='commodity'>
 		<navigator id='box' url='/pages/index/detail/detail'>
-			<image id='box_img' src='../../../static/456.jpg'></image>
+			<image id='box_img' src='../../../static/image/456.jpg'></image>
 			<view id='box_title'>泰国直邮天然乳胶垫榻榻米垫单双人床垫定制可贴牌 乳胶床垫</view>
 			<view id='original_price'>原价<del>23880.00</del></view>
 			<view id='money'>
@@ -10,7 +10,7 @@
 			</view>
 		</navigator>
 		<navigator id='box' url='/pages/index/detail/detail'>
-			<image id='box_img' src='../../../static/456.jpg'></image>
+			<image id='box_img' src='../../../static/image/456.jpg'></image>
 			<view id='box_title'>泰国直邮天然乳胶垫榻榻米垫单双人床垫定制可贴牌 乳胶床垫</view>
 			<view id="original_price">原价<del>23880.00</del></view>
 			<view id='money'>

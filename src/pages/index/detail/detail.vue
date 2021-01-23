@@ -3,7 +3,7 @@
 	<view class="">
 		<view v-for="(item,index) in goo" :key="item.to1">
 			<view class="top">
-				<image style="width: 100%;height: 350px;" src="../../../static/123.jpg"></image>
+				<image style="width: 100%;height: 350px;" src="../../../static/image/123.jpg"></image>
 				<!-- <u-swiper id='swiper' :list='list'></u-swiper> -->
 			</view>
 			<unisection title="商品介绍" type="line"></unisection>
@@ -24,7 +24,7 @@
 		</view>
 		
 		<unisection title="商品详情图" type="line"></unisection>
-		<image style="width: 100%;margin-top: 20rpx;height: 350px;" src="../../../static/123.jpg"></image>
+		<image style="width: 100%;margin-top: 20rpx;height: 350px;" src="../../../static/image/123.jpg"></image>
 
 		<view class="isbottom">
 		</view>

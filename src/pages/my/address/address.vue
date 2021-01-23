@@ -3,25 +3,16 @@
 		<view class="content">
 			<view class="list">
 				<view class="row" v-for="(row,index) in addressList" :key="index" @tap="select(row)">
-					<view class="left">
-						<view class="head">
-							{{row.head}}
-						</view>
-					</view>
 					<view class="center">
 						<view class="name-tel">
-							<view class="name">{{row.name}}</view>
-							<view class="tel">{{row.tel}}</view>
-							<view class="default" v-if="row.isDefault">
-								默认
-							</view>
+							<view class="name">{{row.realname}}</view>
+							<view class="tel">{{row.mobile}}</view>
+							<view class="default" v-if="row.isDefault">默认</view>
 						</view>
-						<view class="address">
-							{{row.address.region.label}} {{row.address.detailed}}
-						</view>
+						<view class="address">{{row.address.region.label}} {{row.address.detailed}}</view>
 					</view>
 					<view class="right">
-						<view class="icon bianji" @tap.stop="edit(row)">删除</view>
+						<view class="icon bianji" @tap.stop="edit(row)">编辑</view>
 					</view>
 				</view>
 			</view>
@@ -33,21 +24,61 @@
 		</view>
 	</view>
 </template>
+
 <script>
 	export default {
 		data() {
 			return {
 				isSelect:false,
 				addressList:[
-					{id:1,name:"大黑哥",head:"大",tel:"18816881688",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:true},
-					{id:2,name:"大黑哥",head:"大",tel:"15812341234",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深北小道2222号有名公寓502'},isDefault:false},
-					{id:3,name:"老大哥",head:"老",tel:"18155467897",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
-					{id:4,name:"王小妹",head:"王",tel:"13425654895",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
+					{id:1,realname:"大黑哥",head:"大",mobile:"18816881688",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:true},
+					{id:2,realname:"大黑哥",head:"大",mobile:"15812341234",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深北小道2222号有名公寓502'},isDefault:false},
+					{id:3,realname:"老大哥",head:"老",mobile:"18155467897",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
+					{id:4,realname:"王小妹",head:"王",mobile:"13425654895",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
 				]
 			};
 		},
 		onShow() {
-
+			var that = this;
+			uni.getStorage({
+				key: 'history',
+				success(res){
+					that.history = res.data
+				},
+				fail: function(res) {
+					// console.log(res+'aaaaa')
+				}
+			});
+			this.token = this.history.token
+			this.openid = this.history.openid
+			uni.request({
+				url: '/api/member_address_list',
+				data: {
+					token : this.token,
+					openid: this.openid
+				},
+				header: {
+					'Content-Type' : 'application/x-www-form-urlencoded',
+					'token': this.token,
+					'openid': this.openid
+				},
+				method: 'POST',
+				success: (res) => {
+					if (res.data.code == 404) {
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none'
+						});
+					} else if(res.data.code != 200){
+						uni.showToast({
+							title: res.data.msg
+						});
+					} else {
+						that.info = res.data.data.data
+					}
+					console.log(res)
+				}
+			})
 			uni.getStorage({
 				key:'delAddress',
 				success: (e) => {
@@ -171,39 +202,27 @@
 		.row{
 			width: 96%;
 			padding: 20upx 2%;
-			.left{
-				width: 90upx;
-				flex-shrink: 0;
-				align-items: center;
-				.head{
-					width: 70upx;
-					height: 70upx;
-					background:linear-gradient(to right,#ccc,#aaa);
-					color: #fff;
-					justify-content: center;
-					align-items: center;
-					border-radius: 60upx;
-					font-size: 35upx;
-				}
-			}
+
 			.center{
 				width: 100%;
 				flex-wrap: wrap;
+
 				.name-tel{
 					width: 100%;
 					align-items: baseline;
+
 					.name{
 						font-size: 34upx;
 					}
+
 					.tel{
 						margin-left: 30upx;
 						font-size: 24upx;
 						color: #777;
 					}
+
 					.default{
-
 						font-size: 22upx;
-
 						background-color: #f06c7a;
 						color: #fff;
 						padding: 0 18upx;
@@ -211,6 +230,7 @@
 						margin-left: 20upx;
 					}
 				}
+
 				.address{
 					width: 100%;
 					font-size: 24upx;
@@ -218,17 +238,19 @@
 					color: #777;
 				}
 			}
+
 			.right{
 				flex-shrink: 0;
 				align-items: center;
 				margin-left: 20upx;
+
 				.icon{
 					justify-content: center;
 					align-items: center;
 					width: 80upx;
 					height: 60upx;
 					border-left: solid 1upx #aaa;
-					font-size: 40upx;
+					font-size: 30upx;
 					color: #777;
 				}
 			}

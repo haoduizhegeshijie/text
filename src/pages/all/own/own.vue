@@ -7,7 +7,7 @@
 		</view>
 		<view id='useless'>
 			<view id='product'>
-				<image id='product_img' src='../../../static/123.jpg'></image>
+				<image id='product_img' src='../../../static/image/123.jpg'></image>
 				<view id='view'></view>
 				<view id='product_box'>
 					<view id='product_box_text'>智能省电王傲哩给小金盒大礼包 购买发10台</view>
@@ -17,7 +17,7 @@
 				</view>
 			</view>
 			<view id='product'>
-				<image id='product_img' src='../../../static/123.jpg'></image>
+				<image id='product_img' src='../../../static/image/123.jpg'></image>
 				<view id='view'></view>
 				<view id='product_box'>
 					<view id='product_box_text'>智能省电王傲哩给小金盒大礼包 购买发10台</view>
