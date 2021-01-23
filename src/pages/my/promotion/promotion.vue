@@ -14,7 +14,9 @@
 				<image src="../../../static/image/my/promotion/text.png"></image>
 			</view>
 			<view id="rectangle">
-				<image src="../../../static/image/my/promotion/rectangle.png"></image>
+				<image src="../../../static/image/my/promotion/rectangle.png">
+					<image :src="this.info"></image>
+				</image>
 			</view>
 		</view>
 		<view id="button">
@@ -26,9 +28,53 @@
 <script>
 	// import qrCode from '../../../static/js/weapp-qrcode.js'; //二维码生成器
 	export default {
+		onShow() {
+			var that = this;
+			uni.getStorage({
+				key: 'history',
+				success(res){
+					that.history = res.data
+				},
+				fail: function(res) {
+					// console.log(res+'aaaaa')
+				}
+			});
+			this.token = this.history.token
+			this.openid = this.history.openid
+			uni.request({
+				url: '/api/get_qrcode',
+				data: {
+					token : this.token,
+					openid: this.openid
+				},
+				header: {
+					'Content-Type' : 'application/x-www-form-urlencoded',
+					'token': this.token,
+					'openid': this.openid
+				},
+				method: 'POST',
+				success: (res) => {
+					if (res.data.code == 404) {
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none'
+						});
+					} else if(res.data.code != 200){
+						uni.showToast({
+							title: res.data.msg
+						});
+					} else {
+						that.info = res.data.data.qrcode
+						console.log(that.info)
+					}
+					console.log(res)
+				}
+			})
+		},
 		data () {
 			return {
-				windowHeight: ''
+				windowHeight: '',
+				info: ''
 			}
 		},
 		mounted () {
