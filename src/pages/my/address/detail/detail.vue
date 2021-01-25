@@ -1,12 +1,12 @@
 <template>
-    <view>
+    <view id="edit">
         <view class="content">
             <view class="row">
                 <view class="nominal">
                     收件人
                 </view>
                 <view class="input">
-                    <input placeholder="请输入收件人姓名" type="text" v-model="realname" />
+                    <input placeholder="请输入收件人姓名" type="text" v-model="info.realname" />
                 </view>
             </view>
             <view class="row">
@@ -14,7 +14,7 @@
                     电话号码
                 </view>
                 <view class="input">
-                    <input placeholder="请输入收件人电话号码" type="text" v-model="mobile" />
+                    <input placeholder="请输入收件人电话号码" type="text" v-model="info.mobile" />
                 </view>
             </view>
             <view class="row">
@@ -22,7 +22,7 @@
                     所在地区
                 </view>
                 <view class="input" @tap="chooseCity">
-                    {{region.label}}
+                    {{info.province + info.city + info.area}} ： {{info.province + info.city + info.area}} ？ {{region.label}}
                 </view>
 
             </view>
@@ -31,7 +31,7 @@
                     详细地址
                 </view>
                 <view class="input">
-                    <textarea v-model="detailed" auto-height="true" placeholder="输入详细地址"></textarea>
+                    <textarea v-model="info.address" auto-height="true" placeholder="输入详细地址"></textarea>
                 </view>
             </view>
             <view class="row">
@@ -60,6 +60,56 @@
 <script>
     import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
     export default {
+        onShow() {
+            var that = this;
+            uni.getStorage({
+                key: 'address',
+                success(res){
+                    that.address = res.data
+                },
+                fail: function(res) {
+                    console.log(res+'aaaaa')
+                }
+            });
+            uni.getStorage({
+                key: 'history',
+                success(res){
+                    that.history = res.data
+                },
+                fail: function(res) {
+                    console.log(res+'aaaaa')
+                }
+            });
+            uni.request({
+                url:'/api/member_address_info',
+                data: {
+                    id: this.address,
+                    'token': this.history.token,
+                    'openid': this.history.openid
+                },
+                header: {
+                    'Content-Type' : 'application/x-www-form-urlencoded',
+                    'token': this.history.token,
+                    'openid': this.history.openid
+                },
+                method: 'POST',
+                success: (res) => {
+                    if (res.data.data.code == 404) {
+                        uni.navigateTo({
+                            url:'/pages/login/login'
+                        });
+                    } else if(res.data.code != 200){
+                        uni.showToast({
+                            title: res.data.msg
+                        });
+                    } else {
+                        that.info = res.data.data
+                        console.log(that.info)
+                    }
+                    console.log(res)
+                }
+            })
+        },
         components: {
             mpvueCityPicker
         },
@@ -69,11 +119,12 @@
                 id:'',
                 realname:'',
                 mobile:'',
-                detailed:'',
+                address:'',
                 isDefault:false,
                 cityPickerValue: [0, 0, 1],
                 themeColor: '#007AFF',
-                region:{label:"请点击选择地址",value:[],cityCode:""}
+                region:{label:"请点击选择地址",value:[],cityCode:""},
+                info:''
             };
         },
         methods: {
@@ -111,7 +162,7 @@
 
             },
             save(){
-                let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"detailed":this.detailed},"isDefault":this.isDefault}
+                let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"address":this.address},"isDefault":this.isDefault}
                 if(this.editType=='edit'){
                     data.id = this.id
                 }
@@ -123,7 +174,7 @@
                     uni.showToast({title:'请输入收件人电话号码',icon:'none'});
                     return ;
                 }
-                if(!data.address.detailed){
+                if(!data.address.address){
                     uni.showToast({title:'请输入收件人详细地址',icon:'none'});
                     return ;
                 }
@@ -189,7 +240,7 @@
                         this.id = e.data.id;
                         this.name = e.data.name;
                         this.tel = e.data.tel;
-                        this.detailed = e.data.address.detailed;
+                        this.address = e.data.address.address;
                         this.isDefault = e.data.isDefault;
                         this.cityPickerValue = e.data.address.region.value;
                         this.region = e.data.address.region;
@@ -280,8 +331,8 @@
                 justify-content: center;
                 align-items: center;
                 font-size: 36upx;
-                color: #f06c7a;
-                background-color: rgba(255,0,0,0.05);
+                color: #fff;
+                background-color: #3f77f6;
                 border-bottom: solid 1upx #eee;
             }
         }

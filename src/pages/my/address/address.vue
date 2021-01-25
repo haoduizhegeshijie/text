@@ -12,13 +12,13 @@
 						<view class="address">{{row.address.region.label}} {{row.address.detailed}}</view>
 					</view>
 					<view class="right">
-						<view class="icon bianji" @tap.stop="edit(row)">编辑</view>
+						<view class="icon bianji" @tap.stop="edit(row.id)">编辑</view>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="add">
-			<view class="btn" @tap="add">
+			<view class="btn" @tap="add()">
 				<view class="icon tianjia"></view>新增地址
 			</view>
 		</view>
@@ -125,21 +125,20 @@
 			}
 		},
 		methods:{
-			edit(row){
+			edit(id){
 				uni.setStorage({
 					key:'address',
-					data:row,
+					data:id,
 					success() {
 						uni.navigateTo({
-							url:"edit/edit?type=edit"
+							url:"detail/detail?id=id"
 						})
 					}
 				});
-
 			},
-			add(){
+			add(id){
 				uni.navigateTo({
-					url:"edit/edit?type=add"
+					url:"edit/edit"
 				})
 			},
 			select(row){

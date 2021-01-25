@@ -24,7 +24,7 @@
 				<view class="input" @tap="chooseCity">
 					{{region.label}}
 				</view>
-				
+
 			</view>
 			<view class="row">
 				<view class="nominal">
@@ -60,6 +60,44 @@
 <script>
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
 	export default {
+		onShow() {
+			var that = this
+			uni.getStorage({
+				key: 'address',
+				success(res){
+					that.history = res.data
+				},
+				fail: function(res) {
+					console.log(res+'aaaaa')
+				}
+			});
+			// uni.request({
+			// 	url:'/api/member_address_info',
+			// 	data: {
+			// 		id: id
+			// 	},
+			// 	header: {
+			// 		'Content-Type' : 'application/x-www-form-urlencoded',
+			// 		'token': this.token,
+			// 		'openid': this.openid
+			// 	},
+			// 	method: 'POST',
+			// 	success: (res) => {
+			// 		// if (res.data.data.code == 404) {
+			// 		// 	uni.navigateTo({
+			// 		// 		url:'/pages/login/login'
+			// 		// 	});
+			// 		// } else if(res.data.code != 200){
+			// 		// 	uni.showToast({
+			// 		// 		title: res.data.msg
+			// 		// 	});
+			// 		// } else {
+			// 		// 	that.info = res.data.data
+			// 		// }
+			// 		console.log(res)
+			// 	}
+			// })
+		},
 		components: {
 			mpvueCityPicker
 		},
@@ -73,7 +111,10 @@
 				isDefault:false,
 				cityPickerValue: [0, 0, 1],
 				themeColor: '#007AFF',
-				region:{label:"请点击选择地址",value:[],cityCode:""}
+				region:{label:"请点击选择地址",value:[],cityCode:""},
+				province: '',
+				city: '',
+				area: ''
 			};
 		},
 		methods: {
@@ -85,7 +126,44 @@
 			},
 			onConfirm(e) {
 				this.region = e;
+				var str = this.region.label
+				console.log(this.getArea(str))
 				this.cityPickerValue = e.value;
+			},
+			getArea: function(str) {
+				let area = {}
+				let index11 = 0
+				let index1 = str.indexOf("省")
+				if (index1 == -1) {
+					index11 = str.indexOf("自治区")
+					if (index11 != -1) {
+						area.Province = str.substring(0, index11 + 3)
+					} else {
+						area.Province = str.substring(0, 0)
+					}
+				} else {
+					area.Province = str.substring(0, index1 + 1)
+				}
+
+				let index2 = str.indexOf("市")
+				if (index11 == -1) {
+					area.City = str.substring(index11 + 1, index2 + 1)
+				} else {
+					if (index11 == 0) {
+						area.City = str.substring(index1 + 1, index2 + 1)
+					} else {
+						area.City = str.substring(index11 + 3, index2 + 1)
+					}
+				}
+
+				let index3 = str.lastIndexOf("区")
+				if (index3 == -1) {
+					index3 = str.indexOf("县")
+					area.Country = str.substring(index2 + 1, index3 + 1)
+				} else {
+					area.Country = str.substring(index2 + 1, index3 + 1)
+				}
+				return area;
 			},
 			isDefaultChange(e){
 				this.isDefault = e.detail.value;

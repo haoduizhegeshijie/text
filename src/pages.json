@@ -231,6 +231,9 @@
 			"path": "pages/my/address/address"
 		},
 		{
+			"path": "pages/my/address/detail/detail"
+		},
+		{
 			"path": "pages/my/address/edit/edit"
 		},
 		{
