@@ -15,7 +15,7 @@
 			</view>
 			<view id="rectangle">
 				<image src="../../../static/image/my/promotion/rectangle.png">
-					<image src={{this.info}}></image>
+<!--					<image src={{this.info}}></image>-->
 				</image>
 			</view>
 		</view>

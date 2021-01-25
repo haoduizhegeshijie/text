@@ -1,102 +1,93 @@
+蓝色： #1b85e9
 <template>
-	<view>
-		<view>
-			<view>
-				<view>头像</view>
-				<view>
-					<image v-if="avarShow" :src="avar" mode=""></image>
-					<image v-else id='image' src="../../../static/image/123.jpg" mode=""></image>
+	<view id="personal">
+		<view id="">
+			<view class="cell">
+				<text class="tit fill">头像</text>
+				<view class="avatar-wrap" @click="chooseImage">
+					<image class="avatar" :src="tempAvatar || userInfo.avatar || '../../../static/image/123.jpg'" mode="aspectFill"></image>
+					<!-- 进度遮盖 -->
+					<view class="progress center" :class="{'no-transtion': uploadProgress === 0, show: uploadProgress != 100}" :style="{ width: uploadProgress + '%', height: uploadProgress + '%', }" ></view>
 				</view>
 			</view>
-			<!-- <u-upload :action="action" :file-list="fileList" ></u-upload> -->
-			<view id='address_box'>
-				<view id='box_name'>用户名</view>
-				<view id='address_box'>
-					<view>*</view>
-					<view>xqq12345</view>
+			<view class="cell b-b">
+				<text class="tit fill">用户名</text>
+				<input class="input" v-model="userInfo.nickname" type="text" placeholder="请输入用户名" placeholder-class="placeholder">
+			</view>
+			<view class="cell b-b">
+				<text class="tit fill">姓名</text>
+				<input class="input" v-model="userInfo.nickname" type="text" maxlength="8" placeholder="请输入姓名" placeholder-class="placeholder">
+			</view>
+			<view class="cell b-b">
+				<view class="tit fill">微信号</view>
+				<input class="input" v-model="userInfo.nickname" type="text" placeholder="请输入你的微信号" placeholder-class="placeholder">
+			</view>
+			<view class="cell b-b">
+				<view class="test">出生日期</view>
+				<view>{{datetime}}</view>
+				<button type="primary" @click="onShowDatePicker('datetime')">选择时间</button>
+				<mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" :begin-text="'入住'" :end-text="'离店'" :show-seconds="true" @confirm="onSelected" @cancel="onSelected" />
+			</view>
+			<view class="cell b-b">
+				<view class="text-area">
+					<view class="test">现住地址</view>
+					<text class="title">{{title}}</text>
 				</view>
+				<button type="primary" @click="btnClick">选择地址</button>
+				<selectAddress ref='selectAddress' @selectAddress="successSelectAddress"></selectAddress>
 			</view>
-			<hr />
-			<view id='address_box'>
-				<view id='box_name'>姓名</view>
-				<view id='address_box'>
-					<view>*</view>
-					<view>方世煜</view>
-				</view>
-			</view>
-			<hr />
-			<view id='address_box'>
-				<view id='box_name'>微信号</view>
-				<input id='box_value' type="text" placeholder="请输入你的微信号">
-			</view>
-			<hr />
-			<view id='address_box'>
-				<view id='box_name'>出生日期</view>
-				<view></view>
-			</view>
-			<hr />
-			<view id='address_box'>
-				<view id='box_name'>所在城市</view>
-				<view>
-					<picker @change="selCity" @columnchange="selMonitor" :value="addressIndex" :range="address" mode="multiSelector">
-					  <view class="setCon">
-					    <input type="text" :value="addressNode.province + addressNode.city" disabled="" />
-					    <icon class="iconfont iconkefu"></icon>
-					  </view>
-					</picker>
-				</view>
-			</view>
-			<hr />
-			<view id='address_box'>
-				<view id='box_name'>登录密码</view>
-				<input type="text" value="" placeholder="修改登录密码" />
-			</view>
-			<hr />
-			<view id='address_box'>
-				<view id='box_name'>支付密码</view>
-				<input type="text" value="" placeholder="修改登录密码" />
-			</view>
-			<button type="default">确认修改</button>
+			<button id="button" type="primary">确认修改</button>
 		</view>
 	</view>
 </template>
 
 <script>
-	// import tuiDatetime from "@/components/thorui/tui-datetime/tui-datetime"
+	import MxDatePicker from "@/components/mx-datepicker/mx-datepicker.vue";
+	import selectAddress from '@/components/yixuan-selectAddress/yixuan-selectAddress.vue'
 	import address from '../../../static/json/address.json';
 	export default {
 		data() {
 			return {
-				// 演示地址，请勿直接使用
-				action: 'http://www.example.com/upload',
-				fileList: [
-					{
-						url: 'http://pics.sc.chinaz.com/files/pic/pic9/201912/hpic1886.jpg',
-					}
-				],
+				userInfo: '',
+				tempAvatar: '',
+				uploadProgress: 100,
 				address: [],
 				provinceList: [],
 				cityAllList: [],
 				addressIndex: [0, 0],
-				addressNode: {
-					province: "请选择城市",
-					city: ""
-				},
-				imgToken: '',	// 本地图片上传到七牛云会返回一个图片路径，需要传图片 token
-				avar: '',	// 修改后的图片路径
-				avarShow: false,	// true 时显示修改后的图片
-				userId: ''	// 用户 id，看接口需求
+				datetime: '',
+				type: 'rangetime',
+				value: '',
+				currDate: [],
+				title: ''
 			}
 		},
 		onLoad() {
-		    const that = this
-		    // 将省市区的数据转换为picker可用的多维数组
-		    that.getAddressData()
+			const that = this
+			// 将省市区的数据转换为picker可用的多维数组
+			that.getAddressData()
 		},
-		// components:{
-		// 		tuiDatetime
-		// 	}
+		components: {
+			MxDatePicker,
+			selectAddress
+		},
 		methods: {
+			//选择头像
+			chooseImage(){
+				uni.chooseImage({
+					count: 1,
+					success: res=> {
+						uni.navigateTo({
+							url: `./cutImage/cut?src=${res.tempFilePaths[0]}`
+						});
+					}
+				});
+			},
+			onDateChange: function (e) {
+				const val = e.detail.value
+				this.time = this.currDate[val];
+				// 时间选择完成了，这之后就可以做一些其他的事情啦
+			},
 			// 获取地址信息
 			selCity(e) {
 				const that = this;
@@ -137,47 +128,42 @@
 				that.cityAllList = cityAllList;
 				that.address = [provinceList, cityAllList[0]];
 			},
-			// 修改头像
-			updateAvar(way) {
-				const {imgToken,userId} = this
-				uni.chooseImage({
-					count: 1,	// 头像只上传1张
-					sourceType: [way],	// way是点击时传入的打开方式相机或相册
-					success: async (chooseImageRes) => {
-						//获取头像token的接口
-						const data = await this.$api.api.user.getImgToken();
-						const tempFilePaths = chooseImageRes.tempFilePaths;
-						uni.uploadFile({
-							url: 'https://upload-z2.qiniup.com/',	// 上传地址（七牛云）
-							filePath: tempFilePaths[0],
-							name: 'file',
-							formData: {
-								token: data.data.body, //头像token，参考返回数据
-								key: chooseImageRes.tempFiles[0].name // 图片名，移动端可能不存在name，可修改为 key: new Date().getTime()+".png" 随机
-							},
-							success: (uploadFileRes) => {
-								// console.log(uploadFileRes);是一个字符串
-								const data = JSON.parse(uploadFileRes.data)
-								// 上传头像接口（参数根据自己的来）
-								this.$api.api.user.updateHead({
-									"creator": this.$store.state.loginName,	//上传者
-									"headPath": "http://qapxsiqga.bkt.clouddn.com/"+data.key,	// 图片最终的路径，http://qapxsiqga.bkt.clouddn.com/是七牛云空间地址
-									"userId": userId
-								}).then(res=>{
-									console.log(res)
-									this.avar = "http://qapxsiqga.bkt.clouddn.com/"+data.key	// 存入修改后的头像
-									this.avarShow = true	// 显示修改后的头像
-								})
-							}
-						});
-					}
-				})
+			onShowDatePicker(type){//显示
+				this.type = type;
+				this.showPicker = true;
+				this.value = this[type];
+			},
+			onSelected(e) {//选择
+				this.showPicker = false;
+				if(e) {
+					this[this.type] = e.value;
+					//选择的值
+					console.log('value => '+ e.value);
+					//原始的Date对象
+					console.log('date => ' + e.date);
+				}
+			},
+			btnClick() {
+				this.$refs.selectAddress.show()
+			},
+			successSelectAddress(address){
+				console.log(address)
+				this.title = address
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.test{
+		text-align: center;
+		padding: 10px 0;
+	}
+	button{
+		margin: 20upx;
+		font-size: 28upx;
+	}
+
 	#image{
 		display: inline-block;
 		width: 208rpx;
@@ -198,5 +184,91 @@
 	}
 	#box_value{
 		display: inline-block;
+	}
+
+	.cell{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		min-height: 110rpx;
+		padding: 0 40rpx;
+
+		&:first-child{
+			margin-bottom: 10rpx;
+		}
+
+		&:after{
+			left: 40rpx;
+			right: 40rpx;
+			border-color: #d8d8d8;
+		}
+
+		.tit{
+			font-size: 30rpx;
+			color: #333;
+		}
+
+		.avatar-wrap{
+			width: 120rpx;
+			height: 120rpx;
+			position: relative;
+			border-radius: 100rpx;
+			overflow: hidden;
+
+			.avatar{
+				width: 100%;
+				height: 100%;
+				border-radius: 100rpx;
+			}
+			.progress{
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 100rpx;
+				height: 100rpx;
+				box-shadow: rgba(0,0,0,.6) 0px 0px 0px 2005px;
+				border-radius: 100rpx;
+				transition: .5s;
+				opacity: 0;
+
+				&.no-transtion{
+					transition: 0s;
+				}
+				&.show{
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.logo {
+		height: 200rpx;
+		width: 200rpx;
+		margin-top: 200rpx;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 50rpx;
+	}
+
+	.text-area {
+		display: flex;
+		justify-content: center;
+	}
+
+	.title {
+		font-size: 36rpx;
+		color: #8f8f94;
+	}
+
+	.button{
+		background-color: #3f77f6;
 	}
 </style>
