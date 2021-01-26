@@ -21,17 +21,14 @@
 				<view class="nominal">
 					所在地区
 				</view>
-				<view class="input" @tap="chooseCity">
-					{{region.label}}
-				</view>
-
+				<pickerAddress class="input" @change="change">{{txt}}</pickerAddress>
 			</view>
 			<view class="row">
 				<view class="nominal">
 					详细地址
 				</view>
 				<view class="input">
-					<textarea v-model="detailed" auto-height="true" placeholder="输入详细地址"></textarea>
+					<textarea v-model="address" auto-height="true" placeholder="输入详细地址"></textarea>
 				</view>
 			</view>
 			<view class="row">
@@ -53,12 +50,12 @@
 				保存地址
 			</view>
 		</view>
-		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue" @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
 	</view>
 </template>
 
 <script>
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+	import pickerAddress from '@/components/pickerAddress/pickerAddress.vue'
 	export default {
 		onShow() {
 			var that = this
@@ -71,35 +68,19 @@
 					console.log(res+'aaaaa')
 				}
 			});
-			// uni.request({
-			// 	url:'/api/member_address_info',
-			// 	data: {
-			// 		id: id
-			// 	},
-			// 	header: {
-			// 		'Content-Type' : 'application/x-www-form-urlencoded',
-			// 		'token': this.token,
-			// 		'openid': this.openid
-			// 	},
-			// 	method: 'POST',
-			// 	success: (res) => {
-			// 		// if (res.data.data.code == 404) {
-			// 		// 	uni.navigateTo({
-			// 		// 		url:'/pages/login/login'
-			// 		// 	});
-			// 		// } else if(res.data.code != 200){
-			// 		// 	uni.showToast({
-			// 		// 		title: res.data.msg
-			// 		// 	});
-			// 		// } else {
-			// 		// 	that.info = res.data.data
-			// 		// }
-			// 		console.log(res)
-			// 	}
-			// })
+			uni.getStorage({
+				key: 'history',
+				success(res){
+					that.history = res.data
+				},
+				fail: function(res) {
+					console.log(res+'aaaaa')
+				}
+			});
 		},
 		components: {
-			mpvueCityPicker
+			mpvueCityPicker,
+			pickerAddress
 		},
 		data() {
 			return {
@@ -107,63 +88,22 @@
 				id:'',
 				realname:'',
 				mobile:'',
-				detailed:'',
+				txt: '选择地址',
+				address:'',
 				isDefault:false,
 				cityPickerValue: [0, 0, 1],
 				themeColor: '#007AFF',
-				region:{label:"请点击选择地址",value:[],cityCode:""},
 				province: '',
 				city: '',
 				area: ''
 			};
 		},
 		methods: {
-			onCancel(e) {
-				console.log(e)
-			},
-			chooseCity() {
-				this.$refs.mpvueCityPicker.show()
-			},
-			onConfirm(e) {
-				this.region = e;
-				var str = this.region.label
-				console.log(this.getArea(str))
-				this.cityPickerValue = e.value;
-			},
-			getArea: function(str) {
-				let area = {}
-				let index11 = 0
-				let index1 = str.indexOf("省")
-				if (index1 == -1) {
-					index11 = str.indexOf("自治区")
-					if (index11 != -1) {
-						area.Province = str.substring(0, index11 + 3)
-					} else {
-						area.Province = str.substring(0, 0)
-					}
-				} else {
-					area.Province = str.substring(0, index1 + 1)
-				}
-
-				let index2 = str.indexOf("市")
-				if (index11 == -1) {
-					area.City = str.substring(index11 + 1, index2 + 1)
-				} else {
-					if (index11 == 0) {
-						area.City = str.substring(index1 + 1, index2 + 1)
-					} else {
-						area.City = str.substring(index11 + 3, index2 + 1)
-					}
-				}
-
-				let index3 = str.lastIndexOf("区")
-				if (index3 == -1) {
-					index3 = str.indexOf("县")
-					area.Country = str.substring(index2 + 1, index3 + 1)
-				} else {
-					area.Country = str.substring(index2 + 1, index3 + 1)
-				}
-				return area;
+			change(data) {
+				this.txt = data.data.join('')
+				this.province = data.data[0]
+				this.city = data.data[0]
+				this.area = data.data[0]
 			},
 			isDefaultChange(e){
 				this.isDefault = e.detail.value;
@@ -189,24 +129,28 @@
 				
 			},
 			save(){
-				let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"detailed":this.detailed},"isDefault":this.isDefault}
-				if(this.editType=='edit'){
-					data.id = this.id
-				}
-				if(!data.name){
+				// let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"detailed":this.detailed},"isDefault":this.isDefault}
+				// if(this.editType=='edit'){
+				// 	data.id = this.id
+				// }
+				if(!this.realname){
 					uni.showToast({title:'请输入收件人姓名',icon:'none'});
 					return ;
 				}
-				if(!data.tel){
+				if(!this.mobile){
 					uni.showToast({title:'请输入收件人电话号码',icon:'none'});
 					return ;
 				}
-				if(!data.address.detailed){
-					uni.showToast({title:'请输入收件人详细地址',icon:'none'});
+				if(!this.txt){
+					uni.showToast({title:'请输入收件人地址',icon:'none'});
 					return ;
 				}
-				if(data.address.region.value.length==0){
-					uni.showToast({title:'请选择收件地址',icon:'none'});
+				// if(!data.address.detailed){
+				// 	uni.showToast({title:'请输入收件人详细地址',icon:'none'});
+				// 	return ;
+				// }
+				if(!this.address){
+					uni.showToast({title:'请选择收件详细地址',icon:'none'});
 					return ;
 				}
 				uni.showLoading({
@@ -215,13 +159,20 @@
 				uni.request({
 					url: '/api/member_address_edit',
 					data: {
-						token : this.token,
-						openid: this.openid
+						token : this.history.token,
+						openid: this.history.openid,
+						realname: this.realname,
+						mobile: this.mobile,
+						province: this.province,
+						city: this.city,
+						area: this.area,
+						address: this.address,
+						isdefault: this.isdefault
 					},
 					header: {
 						'Content-Type' : 'application/x-www-form-urlencoded',
-						'token': this.token,
-						'openid': this.openid
+						'token': this.history.token,
+						'openid': this.history.openid
 					},
 					method: 'POST',
 					success: (res) => {
@@ -235,25 +186,10 @@
 								title: res.data.msg
 							});
 						} else {
-							that.info = res.data.data
-							console.log(that.info)
+							uni.navigateBack()
 						}
-						console.log(res)
 					}
 				})
-				//实际应用中请提交ajax,模板定时器模拟提交效果
-				setTimeout(()=>{
-					uni.setStorage({
-						key:'saveAddress',
-						data:data,
-						success() {
-							uni.hideLoading();
-							uni.navigateBack();
-						}
-					})
-				},300)
-				
-				
 			}
 		},
 		onLoad(e) {

@@ -12,16 +12,16 @@
 			</view>
 			<view class="cell b-b">
 				<text class="tit fill">用户名</text>
-				<input class="input" v-model="userInfo.nickname" type="text" placeholder="请输入用户名" placeholder-class="placeholder">
+				<input class="input" v-model="weixin" type="text" placeholder="请输入用户名" placeholder-class="placeholder">
 			</view>
 			<view class="cell b-b">
 				<text class="tit fill">姓名</text>
-				<input class="input" v-model="userInfo.nickname" type="text" maxlength="8" placeholder="请输入姓名" placeholder-class="placeholder">
+				<input class="input" v-model="username" type="text" maxlength="8" placeholder="请输入姓名" placeholder-class="placeholder">
 			</view>
-			<view class="cell b-b">
-				<view class="tit fill">微信号</view>
-				<input class="input" v-model="userInfo.nickname" type="text" placeholder="请输入你的微信号" placeholder-class="placeholder">
-			</view>
+<!--			<view class="cell b-b">-->
+<!--				<view class="tit fill">微信号</view>-->
+<!--				<input class="input" v-model="userInfo.nickname" type="text" placeholder="请输入你的微信号" placeholder-class="placeholder">-->
+<!--			</view>-->
 			<view class="cell b-b">
 				<view class="test">出生日期</view>
 				<view>{{datetime}}</view>
@@ -31,45 +31,42 @@
 			<view class="cell b-b">
 				<view class="text-area">
 					<view class="test">现住地址</view>
-					<text class="title">{{title}}</text>
 				</view>
-				<button type="primary" @click="btnClick">选择地址</button>
-				<selectAddress ref='selectAddress' @selectAddress="successSelectAddress"></selectAddress>
+				<pickerAddress class="input" @change="change">{{txt}}</pickerAddress>
 			</view>
-			<button id="button" type="primary">确认修改</button>
+			<button id="button" @click = "columnchange" type="primary">确认修改</button>
 		</view>
 	</view>
 </template>
 
 <script>
-	import MxDatePicker from "@/components/mx-datepicker/mx-datepicker.vue";
-	import selectAddress from '@/components/yixuan-selectAddress/yixuan-selectAddress.vue'
-	import address from '../../../static/json/address.json';
+	import pickerAddress from '@/components/pickerAddress/pickerAddress.vue'
+	import mxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue'
 	export default {
 		data() {
 			return {
 				userInfo: '',
 				tempAvatar: '',
 				uploadProgress: 100,
-				address: [],
-				provinceList: [],
-				cityAllList: [],
-				addressIndex: [0, 0],
 				datetime: '',
 				type: 'rangetime',
 				value: '',
-				currDate: [],
-				title: ''
+				birthyear: '', // 年
+				birthmonth: '', // 月
+				birthday: '', // 日
+				txt: '选择地址',
+				city: '', //市
+				area: '', //区
+				province: '' ,// 省,
+				weixin: '' ,// 微信名
+				username: '', // 姓名
 			}
 		},
 		onLoad() {
-			const that = this
-			// 将省市区的数据转换为picker可用的多维数组
-			that.getAddressData()
 		},
 		components: {
-			MxDatePicker,
-			selectAddress
+			pickerAddress,
+			mxDatePicker
 		},
 		methods: {
 			//选择头像
@@ -83,51 +80,6 @@
 					}
 				});
 			},
-			onDateChange: function (e) {
-				const val = e.detail.value
-				this.time = this.currDate[val];
-				// 时间选择完成了，这之后就可以做一些其他的事情啦
-			},
-			// 获取地址信息
-			selCity(e) {
-				const that = this;
-				let val = e.target.value
-				that.addressNode = {
-					province: that.address[0][val[0]],
-					city: that.address[1][val[1]]
-				}
-			},
-			// 监听省市区滚动
-			selMonitor(e) {
-				const that = this
-				let column = e.detail.column
-				if (column == 0) {
-					let index = e.detail.value
-					that.address[1] = that.cityAllList[index]
-				}
-			},
-			// 将省市区的数据转换为picker可用的多维数组
-			getAddressData() {
-				const that = this;
-				// 所有城市列表,二维数组
-				let cityAllList = [];
-				// 省列表
-				let provinceList = [];
-				// address为省市区的json数据
-				for (let key in address) {
-					let newDataList = [];
-					if (address[key].children) {
-						for (let key2 in address[key].children) {
-							newDataList.push(address[key].children[key2].name);
-						}
-					}
-					provinceList.push(address[key].name);
-					cityAllList.push(newDataList);
-				}
-				that.provinceList = provinceList;
-				that.cityAllList = cityAllList;
-				that.address = [provinceList, cityAllList[0]];
-			},
 			onShowDatePicker(type){//显示
 				this.type = type;
 				this.showPicker = true;
@@ -137,18 +89,70 @@
 				this.showPicker = false;
 				if(e) {
 					this[this.type] = e.value;
+					this.birthyear = e.value.slice(0, 4)
+					this.birthmonth = e.value.slice(5, 7)
+					this.birthday = e.value.slice(8, 11)
 					//选择的值
-					console.log('value => '+ e.value);
-					//原始的Date对象
-					console.log('date => ' + e.date);
+					// console.log('value => '+ e.value);
+					// //原始的Date对象
+					// console.log('date => ' + e.date);
 				}
 			},
-			btnClick() {
-				this.$refs.selectAddress.show()
+			change(data) {
+				this.txt = data.data.join('')
+				this.province = data.data[0]
+				this.city = data.data[0]
+				this.area = data.data[0]
 			},
-			successSelectAddress(address){
-				console.log(address)
-				this.title = address
+			columnchange(){
+				var that = this
+				uni.getStorage({
+					key: 'history',
+					success(res){
+						that.history = res.data
+					},
+					fail: function(res) {
+						console.log(res+'aaaaa')
+					}
+				});
+				uni.request({
+					url: '/api/member_save',
+					data: {
+						token : this.history.token,
+						openid: this.history.openid,
+						weixin: this.weixin,
+						username: this.username,
+						birthyear: this.birthyear,
+						birthmonth: this.birthmonth,
+						birthday: this.birthday,
+						province: this.province,
+						city: this.city,
+						area: this.area
+					},
+					header: {
+						'Content-Type' : 'application/x-www-form-urlencoded',
+						'token': this.history.token,
+						'openid': this.history.openid
+					},
+					method: 'POST',
+					success: (res) => {
+						if (res.data.code == 404) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							});
+						} else if(res.data.code != 200){
+							uni.showToast({
+								title: res.data.msg
+							});
+						} else {
+							// uni.navigateTo({
+							// 	url: '../../my/my'
+							// })
+							uni.navigateBack()
+						}
+					}
+				})
 			}
 		}
 	}

@@ -46,7 +46,7 @@
 					that.history = res.data
 				},
 				fail: function(res) {
-					// console.log(res+'aaaaa')
+					console.log(res+'aaaaa')
 				}
 			});
 			this.token = this.history.token
@@ -76,7 +76,7 @@
 					} else {
 						that.info = res.data.data.data
 					}
-					console.log(res)
+					// console.log(res)
 				}
 			})
 			uni.getStorage({

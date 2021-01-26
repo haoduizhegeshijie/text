@@ -47,15 +47,101 @@
 
 <script>
 	export default {
+		onShow() {
+			var that = this
+			uni.getStorage({
+				key: 'history',
+				success(res){
+					that.history = res.data
+				},
+				fail: function(res) {
+					console.log(res+'aaaaa')
+				}
+			});
+			uni.request({
+				url: '/api/team_list',
+				data: {
+					token: this.history.token,
+					openid: this.history.openid,
+				},
+				header: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'token': this.history.token,
+					'openid': this.history.openid
+				},
+				method: 'POST',
+				success: (res) => {
+					if (res.data.code == 404) {
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none'
+						});
+					} else if (res.data.code != 200) {
+						uni.showToast({
+							title: res.data.msg
+						});
+					} else {
+						that.info = res.data.data
+					}
+					console.log(res.data.data)
+				}
+			})
+		},
 		data() {
 			return {	
 				Inv: 0,
+				info: ''
 			}
 		},
 		methods: {
 			yiXuan() {
 				/* 滑动门默认值 */
 				this.Inv = 1;
+				this.team()
+			},
+			team(){
+				var that = this
+				uni.getStorage({
+					key: 'history',
+					success(res){
+						that.history = res.data
+					},
+					fail: function(res) {
+						console.log(res+'aaaaa')
+					}
+				});
+				uni.request({
+					url: '/api/team_number',
+					data: {
+						token: this.history.token,
+						openid: this.history.openid,
+					},
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'token': this.history.token,
+						'openid': this.history.openid
+					},
+					method: 'POST',
+					success: (res) => {
+						if (res.data.code == 404) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							});
+						} else if (res.data.code != 200) {
+							uni.showToast({
+								title: res.data.msg
+							});
+						} else {
+							// uni.navigateTo({
+							// 	url: '../../my/my'
+							// })
+							// uni.navigateBack()
+							that.info = res.data.data
+						}
+						console.log(res.data.data)
+					}
+				})
 			}
 		}
 	}

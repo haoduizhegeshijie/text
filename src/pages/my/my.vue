@@ -101,7 +101,7 @@
 						} else {
 							that.info = res.data.data
 						}
-						console.log(res)
+						// console.log(res)
 					}
 				})
 			}
@@ -127,11 +127,11 @@
 					[
 						{name:'商家管理',icon:'administration.png',url:'/pages/my/administration/administration'},
 						{name:'我的邀请',icon:'invite.png',url:'/pages/my/invite/invite'},
-						{name:'收货地址',icon:'address.png',url:'/pages/my/address/address'},
-						{name:'我的收藏',icon:'collect.png',url:'/pages/my/collect/collect'}
+						// {name:'收货地址',icon:'address.png',url:'/pages/my/address/address'},
+						// {name:'我的收藏',icon:'collect.png',url:'/pages/my/collect/collect'},
+						{name:'设置',icon:'set.png',url:'/pages/my/set/set'}
 					],
 					[
-						{name:'设置',icon:'set.png',url:'/pages/my/set/set'}
 					]
 				],
 			}
