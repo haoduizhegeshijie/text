@@ -14,10 +14,13 @@
 						<image id="headPortrait_img" src="../../../static/image/my/default.png" mode=""></image>
 					</view>
 					<view id="personalCenter">
+<!--						{{info.openid}}-->
 						<view id="name">qwer123</view>
+<!--						{{info.createtime}}-->
 						<view id="time">2020/12/21 15:00:00</view>
 					</view>
 					<view id="junior">
+<!--						{{info.info.}}-->
 						<view id="fans">粉丝(lv0)</view>
 						<view id="num">0.00</view>
 					</view>
@@ -53,9 +56,17 @@
 				key: 'history',
 				success(res){
 					that.history = res.data
+					if(that.history.token == ''){
+						uni.navigateTo({
+							url:'/pages/login/login'
+						})
+					}
 				},
 				fail: function(res) {
 					console.log(res+'aaaaa')
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
 				}
 			});
 			uni.request({

@@ -25,14 +25,17 @@
                     <u-checkbox-group @change="checkboxChange" width="36rpx">
                         <u-checkbox v-model="item.check" size="36" shape="circle" active-color="#FD013E" class="checkbox"></u-checkbox>
                     </u-checkbox-group>
+
                     <view class="cart-img"><image mode="widthFix" :src="item.product.image" @click.stop="$u.throttle(gotoDetail(item.product._id), 2000)"></image></view>
                     <!-- 此层wrap在此为必写的，否则可能会出现标题定位错误 -->
                     <view class="title-wrap" @click.stop="$u.throttle(gotoDetail(item.product._id), 2000)">
+<!--                        {{item.title}}-->
                         <view class="title u-line-1 ">{{ item.product.title }}</view>
-
+<!--                        {{item.title}}-->
                         <view class="sku">{{ item.product.cate_name }}</view>
                         <view class="price">
                             ¥
+<!--                            {{item.marketprice}}-->
                             <text class="large">{{ priceInt(item.product.price) }}</text>
                             .{{ priceDecimal(item.product.price) }}
                         </view>
@@ -111,6 +114,95 @@
 <script>
 import sortdata from 'static/data/cartData.js';
 export default {
+    onShow() {
+        this.checked = false;
+        this.getCart();
+        console.log(this.cartList);
+        var that = this;
+        uni.getStorage({
+            key: 'history',
+            success(res){
+                that.history = res.data
+                if(that.history.token == ''){
+                    uni.navigateTo({
+                        url:'/pages/login/login'
+                    })
+                }
+            },
+            fail: function(res) {
+                console.log(res+'aaaaa')
+                uni.navigateTo({
+                    url:'/pages/login/login'
+                })
+            }
+        });
+        this.token = this.history.token
+        this.openid = this.history.openid
+        if(this.openid == ''){
+            if(this.token == ''){
+                uni.navigateTo({
+                    url:'/pages/login/login'
+                })
+            }
+        }else{
+            uni.request({
+                url: '/api/member_cart',
+                data: {
+                    token : this.token,
+                    openid: this.openid
+                },
+                header: {
+                    'Content-Type' : 'application/x-www-form-urlencoded',
+                    'token': this.token,
+                    'openid': this.openid
+                },
+                method: 'POST',
+                success: (res) => {
+                    if (res.data.data.code == 404) {
+                        uni.navigateTo({
+                            url:'/pages/login/login'
+                        });
+                    } else if(res.data.code != 200){
+                        uni.showToast({
+                            title: res.data.msg
+                        });
+                    } else {
+                        that.info = res.data.data
+                        console.log(that.info)
+                    }
+                    // console.log(res)
+                }
+            })
+        }
+        uni.request({
+            url: '/api/member_info',
+            data: {
+                token : this.token,
+                openid: this.openid
+            },
+            header: {
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'token': this.token,
+                'openid': this.openid
+            },
+            method: 'POST',
+            success: (res) => {
+                if (res.data.data.code == 404) {
+                    uni.navigateTo({
+                        url:'/pages/login/login'
+                    });
+                } else if(res.data.code != 200){
+                    uni.showToast({
+                        title: res.data.msg
+                    });
+                } else {
+                    that.cart = res.data.data
+                    console.log(that.cart)
+                }
+                // console.log(res)
+            }
+        })
+    },
     data() {
         return {
             loadStatus: 'loadmore',
@@ -158,13 +250,10 @@ export default {
             confirmStyle: {
                 color: '#fff',
                 backgroundColor: '#FD013E'
-            }
+            },
+            cart: '',
+            info: ''
         };
-    },
-    onShow() {
-        this.checked = false;
-        this.getCart();
-        console.log(this.cartList);
     },
     computed: {
         // 价格合计

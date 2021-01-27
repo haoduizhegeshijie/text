@@ -15,8 +15,8 @@
 			</view>
 			<view id="rectangle">
 				<image src="../../../static/image/my/promotion/rectangle.png">
-<!--					<image src={{this.info}}></image>-->
 				</image>
+				<image id="image_small" :src="info"></image>
 			</view>
 		</view>
 		<view id="button">
@@ -34,9 +34,17 @@
 				key: 'history',
 				success(res){
 					that.history = res.data
+					if(that.history.token == ''){
+						uni.navigateTo({
+							url:'/pages/login/login'
+						})
+					}
 				},
 				fail: function(res) {
-					// console.log(res+'aaaaa')
+					console.log(res+'aaaaa')
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
 				}
 			});
 			this.token = this.history.token
@@ -64,7 +72,8 @@
 							title: res.data.msg
 						});
 					} else {
-						that.info = res.data.data.qrcode
+						let api = 'http://tuh.dingf916.cn'
+						that.info = api + res.data.data.qrcode
 						console.log(that.info)
 					}
 					console.log(res)
@@ -112,9 +121,18 @@
 
 			#rectangle{
 				margin-left: 125rpx;
+				position: relative;
 
 				image{
 					width: 500rpx;
+				}
+
+				#image_small{
+					position: absolute;
+					width: 300rpx;
+					height: 300rpx;
+					top: 80rpx;
+					left: 100rpx;
 				}
 			}
 		}

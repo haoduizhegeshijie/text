@@ -110,9 +110,17 @@
 					key: 'history',
 					success(res){
 						that.history = res.data
+						if(that.history.token == ''){
+							uni.navigateTo({
+								url:'/pages/login/login'
+							})
+						}
 					},
 					fail: function(res) {
 						console.log(res+'aaaaa')
+						uni.navigateTo({
+							url:'/pages/login/login'
+						})
 					}
 				});
 				uni.request({

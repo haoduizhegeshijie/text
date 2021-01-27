@@ -36,12 +36,7 @@
 					设置默认地址
 				</view>
 				<view class="input switch">
-					<switch color="#f06c7a" :checked="isDefault" @change=isDefaultChange />
-				</view>
-			</view>
-			<view class="row" v-if="editType=='edit'" @tap="del">
-				<view class="del">
-					删除收货地址
+					<switch color="#f06c7a" :checked="isDefault == 0 ? false : true" @change="isDefaultChange()" />
 				</view>
 			</view>
 		</view>
@@ -59,13 +54,22 @@
 	export default {
 		onShow() {
 			var that = this
+			var that = this;
 			uni.getStorage({
-				key: 'address',
+				key: 'history',
 				success(res){
 					that.history = res.data
+					if(that.history.token == ''){
+						uni.navigateTo({
+							url:'/pages/login/login'
+						})
+					}
 				},
 				fail: function(res) {
 					console.log(res+'aaaaa')
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
 				}
 			});
 			uni.getStorage({
@@ -90,7 +94,7 @@
 				mobile:'',
 				txt: '选择地址',
 				address:'',
-				isDefault:false,
+				isDefault: 0,
 				cityPickerValue: [0, 0, 1],
 				themeColor: '#007AFF',
 				province: '',
@@ -105,8 +109,8 @@
 				this.city = data.data[0]
 				this.area = data.data[0]
 			},
-			isDefaultChange(e){
-				this.isDefault = e.detail.value;
+			isDefaultChange(){
+				this.isDefault == !this.isDefault
 			},
 			del(){
 				uni.showModal({
@@ -126,13 +130,9 @@
 						}
 					}
 				});
-				
+
 			},
 			save(){
-				// let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"detailed":this.detailed},"isDefault":this.isDefault}
-				// if(this.editType=='edit'){
-				// 	data.id = this.id
-				// }
 				if(!this.realname){
 					uni.showToast({title:'请输入收件人姓名',icon:'none'});
 					return ;
@@ -145,10 +145,6 @@
 					uni.showToast({title:'请输入收件人地址',icon:'none'});
 					return ;
 				}
-				// if(!data.address.detailed){
-				// 	uni.showToast({title:'请输入收件人详细地址',icon:'none'});
-				// 	return ;
-				// }
 				if(!this.address){
 					uni.showToast({title:'请选择收件详细地址',icon:'none'});
 					return ;
@@ -167,7 +163,7 @@
 						city: this.city,
 						area: this.area,
 						address: this.address,
-						isdefault: this.isdefault
+						isdefault: 0
 					},
 					header: {
 						'Content-Type' : 'application/x-www-form-urlencoded',
@@ -192,37 +188,7 @@
 				})
 			}
 		},
-		onLoad(e) {
-			//获取传递过来的参数
-			
-			this.editType = e.type;
-			if(e.type=='edit'){
-				uni.getStorage({
-					key:'address',
-					success: (e) => {
-						this.id = e.data.id;
-						this.name = e.data.name;
-						this.tel = e.data.tel;
-						this.detailed = e.data.address.detailed;
-						this.isDefault = e.data.isDefault;
-						this.cityPickerValue = e.data.address.region.value;
-						this.region = e.data.address.region;
-					}
-				})
-			}
-			
-		},
-		onBackPress() {
-			if (this.$refs.mpvueCityPicker.showPicker) {
-				this.$refs.mpvueCityPicker.pickerCancel();
-				return true;
-			}
-		},
-		onUnload() {
-			if (this.$refs.mpvueCityPicker.showPicker) {
-				this.$refs.mpvueCityPicker.pickerCancel()
-			}
-		}
+		onLoad(e) {},
 	};
 </script>
 <style lang="scss">
@@ -265,7 +231,7 @@
 		}
 		.row{
 			width: 94%;
-			
+
 			margin: 0 3%;
 			border-top: solid 1upx #eee;
 			.nominal{
@@ -300,5 +266,5 @@
 			}
 		}
 	}
-	
+
 </style>

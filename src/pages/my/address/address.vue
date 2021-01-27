@@ -44,9 +44,17 @@
 				key: 'history',
 				success(res){
 					that.history = res.data
+					if(that.history.token == ''){
+						uni.navigateTo({
+							url:'/pages/login/login'
+						})
+					}
 				},
 				fail: function(res) {
 					console.log(res+'aaaaa')
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
 				}
 			});
 			this.token = this.history.token
@@ -69,6 +77,9 @@
 							title: res.data.msg,
 							icon: 'none'
 						});
+						uni.navigateTo({
+							url:'/pages/login/login'
+						})
 					} else if(res.data.code != 200){
 						uni.showToast({
 							title: res.data.msg
@@ -126,15 +137,16 @@
 		},
 		methods:{
 			edit(id){
-				uni.setStorage({
-					key:'address',
-					data:id,
-					success() {
-						uni.navigateTo({
-							url:"detail/detail?id=id"
-						})
+				console.log(id)
+				uni.setStorageSync(
+					'address',
+					{
+						id: id
 					}
-				});
+				)
+				uni.navigateTo({
+					url:"detail/detail?id = id"
+				})
 			},
 			add(id){
 				uni.navigateTo({

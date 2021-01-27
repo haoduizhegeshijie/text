@@ -23,6 +23,8 @@
 			<navigator url="forget" open-type="navigate">忘记密码</navigator>
 			<text>|</text>
 			<navigator url="reg" open-type="navigate">注册账户</navigator>
+			<text>|</text>
+			<view @click="bleak">返回首页</view>
 		</view>
 	</view>
 </template>
@@ -49,6 +51,11 @@
 						title: '手机号格式不正确'
 					})
 				}
+			},
+			bleak(){
+				uni.switchTab({
+					url: '/pages/index/index'
+				});
 			},
 			bindLogin: function () {
 				if (this.submitForm.phone.length != 11) {

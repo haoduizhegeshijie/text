@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view id="set" :style="{ 'height': windowHeight + 'px' }">
         <view id="content">
             <view class='list'>
                 <navigator class="li" url="/pages/my/personal/personal">
@@ -21,60 +21,89 @@
             </view>
         </view>
         <view>
-            <button type="primary" class="bg-main rounded text-white" style="border-radius: 50rpx;" @click="logout">退出登陆</button>
+            <button type="primary" class="bg-main rounded text-white" @click="logout">退出登陆</button>
         </view>
     </view>
 </template>
 
 <script>
     export default {
-        name: "set"
+        name: "set",
+        data(){
+            return {
+                windowHeight: 0
+            }
+        },
+        mounted () {
+            uni.getSystemInfo({
+                success: (res) => {
+                    console.log(res.windowHeight);
+                    this.windowHeight = res.windowHeight;
+                }
+            });
+        },
+        methods: {
+            logout(){
+                debugger
+                uni.clearStorage();
+                uni.navigateTo({
+                    url: '/pages/my/my'
+                })
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-    #content{
-        margin-top: 100rpx;
-        background-color: #fff;
+    #set{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
 
-        .list{
-            width:750rpx;
-            margin-left: 20rpx;
-            margin-right: 20rpx;
+        #content{
+            margin-top: 100rpx;
+            background-color: #fff;
 
-            .li{
-                width:92%;
-                height:100upx;
-                padding:0 4%;
-                border-bottom:solid 1upx #f5f6fa;
-                display:flex;
-                align-items:center;
+            .list{
+                width:700rpx;
+                margin-left: 20rpx;
+                margin-right: 20rpx;
 
-                &.noborder{
-                    border-bottom:0
-                }
+                .li{
+                    width:92%;
+                    height:100upx;
+                    padding:0 4%;
+                    border-bottom:solid 1upx #f5f6fa;
+                    display:flex;
+                    align-items:center;
 
-                .icon{
-                    flex-shrink:0;
-                    width:50upx;
-                    height:50upx;
+                    &.noborder{
+                        border-bottom:0
+                    }
 
-                    image{
+                    .icon{
+                        flex-shrink:0;
                         width:50upx;
                         height:50upx;
+
+                        image{
+                            width:50upx;
+                            height:50upx;
+                        }
                     }
-                }
 
-                .text{
-                    padding-left:20upx;
-                    width:100%;
-                    color:#666;
-                }
+                    .text{
+                        padding-left:20upx;
+                        width:100%;
+                        color:#666;
+                    }
 
-                .to{
-                    flex-shrink:0;
-                    width:40upx;
-                    height:40upx
+                    .to{
+                        flex-shrink:0;
+                        width:40upx;
+                        height:40upx
+                    }
                 }
             }
         }

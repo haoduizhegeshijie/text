@@ -22,7 +22,7 @@
                     所在地区
                 </view>
                 <view class="input" @tap="chooseCity">
-                    {{info.province + info.city + info.area}} ： {{info.province + info.city + info.area}} ？ {{region.label}}
+                    {{info.province + info.city + info.area}}
                 </view>
 
             </view>
@@ -42,7 +42,7 @@
                     <switch color="#f06c7a" :checked="isDefault" @change=isDefaultChange />
                 </view>
             </view>
-            <view class="row" v-if="editType=='edit'" @tap="del">
+            <view class="row" @tap="del">
                 <view class="del">
                     删除收货地址
                 </view>
@@ -53,7 +53,6 @@
                 保存地址
             </view>
         </view>
-        <mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue" @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
     </view>
 </template>
 
@@ -63,18 +62,26 @@
         onShow() {
             var that = this;
             uni.getStorage({
-                key: 'address',
-                success(res){
-                    that.address = res.data
-                },
-                fail: function(res) {
-                    console.log(res+'aaaaa')
-                }
-            });
-            uni.getStorage({
                 key: 'history',
                 success(res){
                     that.history = res.data
+                    if(that.history.token == ''){
+                        uni.navigateTo({
+                            url:'/pages/login/login'
+                        })
+                    }
+                },
+                fail: function(res) {
+                    console.log(res+'aaaaa')
+                    uni.navigateTo({
+                        url:'/pages/login/login'
+                    })
+                }
+            });uni.getStorage({
+                key: 'address',
+                success(res){
+                    that.id = res.data.id
+                    console.log(that.id)
                 },
                 fail: function(res) {
                     console.log(res+'aaaaa')
@@ -83,7 +90,7 @@
             uni.request({
                 url:'/api/member_address_info',
                 data: {
-                    id: this.address,
+                    'id': this.id,
                     'token': this.history.token,
                     'openid': this.history.openid
                 },
@@ -94,11 +101,7 @@
                 },
                 method: 'POST',
                 success: (res) => {
-                    if (res.data.data.code == 404) {
-                        uni.navigateTo({
-                            url:'/pages/login/login'
-                        });
-                    } else if(res.data.code != 200){
+                    if(res.data.code != 200){
                         uni.showToast({
                             title: res.data.msg
                         });
@@ -115,7 +118,6 @@
         },
         data() {
             return {
-                editType:'edit',
                 id:'',
                 realname:'',
                 mobile:'',
@@ -162,24 +164,20 @@
 
             },
             save(){
-                let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"address":this.address},"isDefault":this.isDefault}
-                if(this.editType=='edit'){
-                    data.id = this.id
-                }
-                if(!data.name){
+                if(!this.realname){
                     uni.showToast({title:'请输入收件人姓名',icon:'none'});
                     return ;
                 }
-                if(!data.tel){
+                if(!this.mobile){
                     uni.showToast({title:'请输入收件人电话号码',icon:'none'});
                     return ;
                 }
-                if(!data.address.address){
-                    uni.showToast({title:'请输入收件人详细地址',icon:'none'});
+                if(!this.txt){
+                    uni.showToast({title:'请输入收件人地址',icon:'none'});
                     return ;
                 }
-                if(data.address.region.value.length==0){
-                    uni.showToast({title:'请选择收件地址',icon:'none'});
+                if(!this.address){
+                    uni.showToast({title:'请选择收件详细地址',icon:'none'});
                     return ;
                 }
                 uni.showLoading({
@@ -225,40 +223,15 @@
                         }
                     })
                 },300)
-
-
             }
         },
         onLoad(e) {
-            //获取传递过来的参数
 
-            this.editType = e.type;
-            if(e.type=='edit'){
-                uni.getStorage({
-                    key:'address',
-                    success: (e) => {
-                        this.id = e.data.id;
-                        this.name = e.data.name;
-                        this.tel = e.data.tel;
-                        this.address = e.data.address.address;
-                        this.isDefault = e.data.isDefault;
-                        this.cityPickerValue = e.data.address.region.value;
-                        this.region = e.data.address.region;
-                    }
-                })
-            }
-
-        },
-        onBackPress() {
-            if (this.$refs.mpvueCityPicker.showPicker) {
-                this.$refs.mpvueCityPicker.pickerCancel();
-                return true;
-            }
         },
         onUnload() {
-            if (this.$refs.mpvueCityPicker.showPicker) {
-                this.$refs.mpvueCityPicker.pickerCancel()
-            }
+            // if (this.$refs.mpvueCityPicker.showPicker) {
+            //     this.$refs.mpvueCityPicker.pickerCancel()
+            // }
         }
     };
 </script>

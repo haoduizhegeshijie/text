@@ -44,13 +44,22 @@
 	export default {
 		onShow() {
 			var that = this;
+			var that = this;
 			uni.getStorage({
 				key: 'history',
 				success(res){
 					that.history = res.data
+					if(that.history.token == ''){
+						uni.navigateTo({
+							url:'/pages/login/login'
+						})
+					}
 				},
 				fail: function(res) {
-					// console.log(res+'aaaaa')
+					console.log(res+'aaaaa')
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
 				}
 			});
 			this.token = this.history.token
