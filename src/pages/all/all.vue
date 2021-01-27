@@ -20,6 +20,37 @@
 <script>
 	import classifyData from '../../common/classify.data.js';
 	export default {
+		onShow() {
+			var that = this;
+			uni.request({
+				url: '/api/category_goods_list',
+				data: {
+					token : this.token,
+					openid: this.openid
+				},
+				header: {
+					'Content-Type' : 'application/x-www-form-urlencoded',
+					'token': this.token,
+					'openid': this.openid
+				},
+				method: 'POST',
+				success: (res) => {
+					if (res.data.data.code == 404) {
+						uni.navigateTo({
+							url:'/pages/login/login'
+						});
+					} else if(res.data.code != 200){
+						uni.showToast({
+							title: res.data.msg
+						});
+					} else {
+						that.cart = res.data.data
+						console.log(that.cart)
+					}
+					console.log(res)
+				}
+			})
+		},
 		data() {
 			return {
 				name: "wkiwi",

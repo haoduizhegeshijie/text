@@ -25,7 +25,7 @@
                     <u-checkbox-group @change="checkboxChange" width="36rpx">
                         <u-checkbox v-model="item.check" size="36" shape="circle" active-color="#FD013E" class="checkbox"></u-checkbox>
                     </u-checkbox-group>
-
+<!--                    item.thumb-->
                     <view class="cart-img"><image mode="widthFix" :src="item.product.image" @click.stop="$u.throttle(gotoDetail(item.product._id), 2000)"></image></view>
                     <!-- 此层wrap在此为必写的，否则可能会出现标题定位错误 -->
                     <view class="title-wrap" @click.stop="$u.throttle(gotoDetail(item.product._id), 2000)">
